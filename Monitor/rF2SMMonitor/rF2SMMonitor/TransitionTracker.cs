@@ -141,10 +141,10 @@ namespace rF2SMMonitor
     {
       if (logToFile)
       {
-        if ((this.lastPhaseTrackingGamePhase == rF2GamePhase.Garage
-              || this.lastPhaseTrackingGamePhase == rF2GamePhase.SessionOver
-              || this.lastPhaseTrackingGamePhase == rF2GamePhase.SessionStopped
-              || (int)this.lastPhaseTrackingGamePhase == 9)  // What is 9? 
+        if ((lastPhaseTrackingGamePhase == rF2GamePhase.Garage
+              || lastPhaseTrackingGamePhase == rF2GamePhase.SessionOver
+              || lastPhaseTrackingGamePhase == rF2GamePhase.SessionStopped
+              || (int)lastPhaseTrackingGamePhase == 9)  // What is 9? 
             && ((rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Countdown
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Formation
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.GridWalk
@@ -160,7 +160,7 @@ namespace rF2SMMonitor
         }
       }
 
-      this.lastPhaseTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
+      lastPhaseTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
 
       if (scoring.mScoringInfo.mNumVehicles == 0)
         return;
@@ -218,8 +218,8 @@ namespace rF2SMMonitor
       ps.mSpeedLimiter = playerVehTelemetry.mSpeedLimiter;
       ps.mFrontTireCompoundIndex = playerVehTelemetry.mFrontTireCompoundIndex;
       ps.mRearTireCompoundIndex = playerVehTelemetry.mRearTireCompoundIndex;
-      ps.mFrontTireCompoundName = TransitionTracker.GetStringFromBytes(playerVehTelemetry.mFrontTireCompoundName);
-      ps.mRearTireCompoundName = TransitionTracker.GetStringFromBytes(playerVehTelemetry.mRearTireCompoundName);
+      ps.mFrontTireCompoundName = GetStringFromBytes(playerVehTelemetry.mFrontTireCompoundName);
+      ps.mRearTireCompoundName = GetStringFromBytes(playerVehTelemetry.mRearTireCompoundName);
       ps.mFrontFlapActivated = playerVehTelemetry.mFrontFlapActivated;
       ps.mRearFlapActivated = playerVehTelemetry.mRearFlapActivated;
       ps.mRearFlapLegalStatus = (rF2RearFlapLegalStatus)playerVehTelemetry.mRearFlapLegalStatus;
@@ -237,109 +237,109 @@ namespace rF2SMMonitor
       ps.mQualification = playerVeh.mQualification;
 
       // Only refresh UI if there's change.
-      if (this.prevPhaseAndSate.mGamePhase != ps.mGamePhase
-        || this.prevPhaseAndSate.mSession != ps.mSession
-        || this.prevPhaseAndSate.mYellowFlagState != ps.mYellowFlagState
-        || this.prevPhaseAndSate.mSector != ps.mSector
-        || this.prevPhaseAndSate.mCurrentSector != ps.mCurrentSector
-        || this.prevPhaseAndSate.mInRealTimeFC != ps.mInRealTimeFC
-        || this.prevPhaseAndSate.mInRealTime != ps.mInRealTime
-        || this.prevPhaseAndSate.mSector1Flag != ps.mSector1Flag
-        || this.prevPhaseAndSate.mSector2Flag != ps.mSector2Flag
-        || this.prevPhaseAndSate.mSector3Flag != ps.mSector3Flag
-        || this.prevPhaseAndSate.mControl != ps.mControl
-        || this.prevPhaseAndSate.mInPits != ps.mInPits
-        || this.prevPhaseAndSate.mIsPlayer != ps.mIsPlayer
-        || this.prevPhaseAndSate.mPlace != ps.mPlace
-        || this.prevPhaseAndSate.mPitState != ps.mPitState
-        || this.prevPhaseAndSate.mIndividualPhase != ps.mIndividualPhase
-        || this.prevPhaseAndSate.mFlag != ps.mFlag
-        || this.prevPhaseAndSate.mUnderYellow != ps.mUnderYellow
-        || this.prevPhaseAndSate.mCountLapFlag != ps.mCountLapFlag
-        || this.prevPhaseAndSate.mInGarageStall != ps.mInGarageStall
-        || this.prevPhaseAndSate.mFinishStatus != ps.mFinishStatus
-        || this.prevPhaseAndSate.mLapNumber != ps.mLapNumber
-        || this.prevPhaseAndSate.mTotalLaps != playerVeh.mTotalLaps
-        || this.prevPhaseAndSate.mMaxLaps != ps.mMaxLaps
-        || this.prevPhaseAndSate.mNumVehicles != ps.mNumVehicles
-        || this.prevPhaseAndSate.mScheduledStops != ps.mScheduledStops
-        || this.prevPhaseAndSate.mHeadlights != ps.mHeadlights
-        || this.prevPhaseAndSate.mSpeedLimiter != ps.mSpeedLimiter
-        || this.prevPhaseAndSate.mFrontTireCompoundIndex != ps.mFrontTireCompoundIndex
-        || this.prevPhaseAndSate.mRearTireCompoundIndex != ps.mRearTireCompoundIndex
-        || this.prevPhaseAndSate.mFrontTireCompoundName != ps.mFrontTireCompoundName
-        || this.prevPhaseAndSate.mRearTireCompoundName != ps.mRearTireCompoundName
-        || this.prevPhaseAndSate.mFrontFlapActivated != ps.mFrontFlapActivated
-        || this.prevPhaseAndSate.mRearFlapActivated != ps.mRearFlapActivated
-        || this.prevPhaseAndSate.mRearFlapLegalStatus != ps.mRearFlapLegalStatus
-        || this.prevPhaseAndSate.mIgnitionStarter != ps.mIgnitionStarter
-        || this.prevPhaseAndSate.mSpeedLimiterAvailable != ps.mSpeedLimiterAvailable
-        || this.prevPhaseAndSate.mAntiStallActivated != ps.mAntiStallActivated
-        || this.prevPhaseAndSate.mStartLight != ps.mStartLight
-        || this.prevPhaseAndSate.mNumRedLights != ps.mNumRedLights
-        || this.prevPhaseAndSate.mNumPitstops != ps.mNumPitstops
-        || this.prevPhaseAndSate.mNumPenalties != ps.mNumPenalties
-        || this.prevPhaseAndSate.mLapsBehindNext != ps.mLapsBehindNext
-        || this.prevPhaseAndSate.mLapsBehindLeader != ps.mLapsBehindLeader
-        || this.prevPhaseAndSate.mPlayerHeadlights != ps.mHeadlights
-        || this.prevPhaseAndSate.mServerScored != ps.mServerScored
-        || this.prevPhaseAndSate.mQualification != ps.mQualification)
+      if (prevPhaseAndSate.mGamePhase != ps.mGamePhase
+        || prevPhaseAndSate.mSession != ps.mSession
+        || prevPhaseAndSate.mYellowFlagState != ps.mYellowFlagState
+        || prevPhaseAndSate.mSector != ps.mSector
+        || prevPhaseAndSate.mCurrentSector != ps.mCurrentSector
+        || prevPhaseAndSate.mInRealTimeFC != ps.mInRealTimeFC
+        || prevPhaseAndSate.mInRealTime != ps.mInRealTime
+        || prevPhaseAndSate.mSector1Flag != ps.mSector1Flag
+        || prevPhaseAndSate.mSector2Flag != ps.mSector2Flag
+        || prevPhaseAndSate.mSector3Flag != ps.mSector3Flag
+        || prevPhaseAndSate.mControl != ps.mControl
+        || prevPhaseAndSate.mInPits != ps.mInPits
+        || prevPhaseAndSate.mIsPlayer != ps.mIsPlayer
+        || prevPhaseAndSate.mPlace != ps.mPlace
+        || prevPhaseAndSate.mPitState != ps.mPitState
+        || prevPhaseAndSate.mIndividualPhase != ps.mIndividualPhase
+        || prevPhaseAndSate.mFlag != ps.mFlag
+        || prevPhaseAndSate.mUnderYellow != ps.mUnderYellow
+        || prevPhaseAndSate.mCountLapFlag != ps.mCountLapFlag
+        || prevPhaseAndSate.mInGarageStall != ps.mInGarageStall
+        || prevPhaseAndSate.mFinishStatus != ps.mFinishStatus
+        || prevPhaseAndSate.mLapNumber != ps.mLapNumber
+        || prevPhaseAndSate.mTotalLaps != playerVeh.mTotalLaps
+        || prevPhaseAndSate.mMaxLaps != ps.mMaxLaps
+        || prevPhaseAndSate.mNumVehicles != ps.mNumVehicles
+        || prevPhaseAndSate.mScheduledStops != ps.mScheduledStops
+        || prevPhaseAndSate.mHeadlights != ps.mHeadlights
+        || prevPhaseAndSate.mSpeedLimiter != ps.mSpeedLimiter
+        || prevPhaseAndSate.mFrontTireCompoundIndex != ps.mFrontTireCompoundIndex
+        || prevPhaseAndSate.mRearTireCompoundIndex != ps.mRearTireCompoundIndex
+        || prevPhaseAndSate.mFrontTireCompoundName != ps.mFrontTireCompoundName
+        || prevPhaseAndSate.mRearTireCompoundName != ps.mRearTireCompoundName
+        || prevPhaseAndSate.mFrontFlapActivated != ps.mFrontFlapActivated
+        || prevPhaseAndSate.mRearFlapActivated != ps.mRearFlapActivated
+        || prevPhaseAndSate.mRearFlapLegalStatus != ps.mRearFlapLegalStatus
+        || prevPhaseAndSate.mIgnitionStarter != ps.mIgnitionStarter
+        || prevPhaseAndSate.mSpeedLimiterAvailable != ps.mSpeedLimiterAvailable
+        || prevPhaseAndSate.mAntiStallActivated != ps.mAntiStallActivated
+        || prevPhaseAndSate.mStartLight != ps.mStartLight
+        || prevPhaseAndSate.mNumRedLights != ps.mNumRedLights
+        || prevPhaseAndSate.mNumPitstops != ps.mNumPitstops
+        || prevPhaseAndSate.mNumPenalties != ps.mNumPenalties
+        || prevPhaseAndSate.mLapsBehindNext != ps.mLapsBehindNext
+        || prevPhaseAndSate.mLapsBehindLeader != ps.mLapsBehindLeader
+        || prevPhaseAndSate.mPlayerHeadlights != ps.mHeadlights
+        || prevPhaseAndSate.mServerScored != ps.mServerScored
+        || prevPhaseAndSate.mQualification != ps.mQualification)
       {
-        this.sbPhaseChanged = new StringBuilder();
-        sbPhaseChanged.Append((this.prevPhaseAndSate.mGamePhase != ps.mGamePhase ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSession != ps.mSession ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mYellowFlagState != ps.mYellowFlagState ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSector != ps.mSector ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mCurrentSector != ps.mCurrentSector ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mInRealTimeFC != ps.mInRealTimeFC ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mInRealTime != ps.mInRealTime ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSector1Flag != ps.mSector1Flag ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSector2Flag != ps.mSector2Flag ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSector3Flag != ps.mSector3Flag ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mControl != ps.mControl ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mInPits != ps.mInPits ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mIsPlayer != ps.mIsPlayer ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mPlace != ps.mPlace ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mPitState != ps.mPitState ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mIndividualPhase != ps.mIndividualPhase ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mFlag != ps.mFlag ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mUnderYellow != ps.mUnderYellow ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mCountLapFlag != ps.mCountLapFlag ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mInGarageStall != ps.mInGarageStall ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mFinishStatus != ps.mFinishStatus ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mLapNumber != ps.mLapNumber ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mTotalLaps != ps.mTotalLaps ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mMaxLaps != ps.mMaxLaps ? "***\n" : "\n"));
+        sbPhaseChanged = new StringBuilder();
+        sbPhaseChanged.Append((prevPhaseAndSate.mGamePhase != ps.mGamePhase ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSession != ps.mSession ? "***\n" : "\n")
+          + (prevPhaseAndSate.mYellowFlagState != ps.mYellowFlagState ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSector != ps.mSector ? "***\n" : "\n")
+          + (prevPhaseAndSate.mCurrentSector != ps.mCurrentSector ? "***\n" : "\n")
+          + (prevPhaseAndSate.mInRealTimeFC != ps.mInRealTimeFC ? "***\n" : "\n")
+          + (prevPhaseAndSate.mInRealTime != ps.mInRealTime ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSector1Flag != ps.mSector1Flag ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSector2Flag != ps.mSector2Flag ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSector3Flag != ps.mSector3Flag ? "***\n" : "\n")
+          + (prevPhaseAndSate.mControl != ps.mControl ? "***\n" : "\n")
+          + (prevPhaseAndSate.mInPits != ps.mInPits ? "***\n" : "\n")
+          + (prevPhaseAndSate.mIsPlayer != ps.mIsPlayer ? "***\n" : "\n")
+          + (prevPhaseAndSate.mPlace != ps.mPlace ? "***\n" : "\n")
+          + (prevPhaseAndSate.mPitState != ps.mPitState ? "***\n" : "\n")
+          + (prevPhaseAndSate.mIndividualPhase != ps.mIndividualPhase ? "***\n" : "\n")
+          + (prevPhaseAndSate.mFlag != ps.mFlag ? "***\n" : "\n")
+          + (prevPhaseAndSate.mUnderYellow != ps.mUnderYellow ? "***\n" : "\n")
+          + (prevPhaseAndSate.mCountLapFlag != ps.mCountLapFlag ? "***\n" : "\n")
+          + (prevPhaseAndSate.mInGarageStall != ps.mInGarageStall ? "***\n" : "\n")
+          + (prevPhaseAndSate.mFinishStatus != ps.mFinishStatus ? "***\n" : "\n")
+          + (prevPhaseAndSate.mLapNumber != ps.mLapNumber ? "***\n" : "\n")
+          + (prevPhaseAndSate.mTotalLaps != ps.mTotalLaps ? "***\n" : "\n")
+          + (prevPhaseAndSate.mMaxLaps != ps.mMaxLaps ? "***\n" : "\n"));
 
-        this.sbPhaseChangedCol2 = new StringBuilder();
-        sbPhaseChangedCol2.Append((this.prevPhaseAndSate.mNumVehicles != ps.mNumVehicles ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mScheduledStops != ps.mScheduledStops ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mHeadlights != ps.mHeadlights ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSpeedLimiter != ps.mSpeedLimiter ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mFrontTireCompoundIndex != ps.mFrontTireCompoundIndex ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mRearTireCompoundIndex != ps.mRearTireCompoundIndex ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mFrontTireCompoundName != ps.mFrontTireCompoundName ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mRearTireCompoundName != ps.mRearTireCompoundName ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mFrontFlapActivated != ps.mFrontFlapActivated ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mRearFlapActivated != ps.mRearFlapActivated ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mRearFlapLegalStatus != ps.mRearFlapLegalStatus ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mIgnitionStarter != ps.mIgnitionStarter ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mSpeedLimiterAvailable != ps.mSpeedLimiterAvailable ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mAntiStallActivated != ps.mAntiStallActivated ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mStartLight != ps.mStartLight ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mNumRedLights != ps.mNumRedLights ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mNumPitstops != ps.mNumPitstops ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mNumPenalties != ps.mNumPenalties ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mLapsBehindNext != ps.mLapsBehindNext ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mLapsBehindLeader != ps.mLapsBehindLeader ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mPlayerHeadlights != ps.mPlayerHeadlights ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mServerScored != ps.mServerScored ? "***\n" : "\n")
-          + (this.prevPhaseAndSate.mQualification != ps.mQualification ? "***\n" : "\n"));
+        sbPhaseChangedCol2 = new StringBuilder();
+        sbPhaseChangedCol2.Append((prevPhaseAndSate.mNumVehicles != ps.mNumVehicles ? "***\n" : "\n")
+          + (prevPhaseAndSate.mScheduledStops != ps.mScheduledStops ? "***\n" : "\n")
+          + (prevPhaseAndSate.mHeadlights != ps.mHeadlights ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSpeedLimiter != ps.mSpeedLimiter ? "***\n" : "\n")
+          + (prevPhaseAndSate.mFrontTireCompoundIndex != ps.mFrontTireCompoundIndex ? "***\n" : "\n")
+          + (prevPhaseAndSate.mRearTireCompoundIndex != ps.mRearTireCompoundIndex ? "***\n" : "\n")
+          + (prevPhaseAndSate.mFrontTireCompoundName != ps.mFrontTireCompoundName ? "***\n" : "\n")
+          + (prevPhaseAndSate.mRearTireCompoundName != ps.mRearTireCompoundName ? "***\n" : "\n")
+          + (prevPhaseAndSate.mFrontFlapActivated != ps.mFrontFlapActivated ? "***\n" : "\n")
+          + (prevPhaseAndSate.mRearFlapActivated != ps.mRearFlapActivated ? "***\n" : "\n")
+          + (prevPhaseAndSate.mRearFlapLegalStatus != ps.mRearFlapLegalStatus ? "***\n" : "\n")
+          + (prevPhaseAndSate.mIgnitionStarter != ps.mIgnitionStarter ? "***\n" : "\n")
+          + (prevPhaseAndSate.mSpeedLimiterAvailable != ps.mSpeedLimiterAvailable ? "***\n" : "\n")
+          + (prevPhaseAndSate.mAntiStallActivated != ps.mAntiStallActivated ? "***\n" : "\n")
+          + (prevPhaseAndSate.mStartLight != ps.mStartLight ? "***\n" : "\n")
+          + (prevPhaseAndSate.mNumRedLights != ps.mNumRedLights ? "***\n" : "\n")
+          + (prevPhaseAndSate.mNumPitstops != ps.mNumPitstops ? "***\n" : "\n")
+          + (prevPhaseAndSate.mNumPenalties != ps.mNumPenalties ? "***\n" : "\n")
+          + (prevPhaseAndSate.mLapsBehindNext != ps.mLapsBehindNext ? "***\n" : "\n")
+          + (prevPhaseAndSate.mLapsBehindLeader != ps.mLapsBehindLeader ? "***\n" : "\n")
+          + (prevPhaseAndSate.mPlayerHeadlights != ps.mPlayerHeadlights ? "***\n" : "\n")
+          + (prevPhaseAndSate.mServerScored != ps.mServerScored ? "***\n" : "\n")
+          + (prevPhaseAndSate.mQualification != ps.mQualification ? "***\n" : "\n"));
 
         // Save current phase and state.
-        this.prevPhaseAndSate = ps;
+        prevPhaseAndSate = ps;
 
-        this.sbPhaseLabel = new StringBuilder();
+        sbPhaseLabel = new StringBuilder();
         sbPhaseLabel.Append("mGamePhase:\n"
           + "mSession:\n"
           + "mYellowFlagState:\n"
@@ -365,7 +365,7 @@ namespace rF2SMMonitor
           + "mTotalLaps:\n"
           + "mMaxLaps:\n");
 
-        this.sbPhaseLabelCol2 = new StringBuilder();
+        sbPhaseLabelCol2 = new StringBuilder();
         sbPhaseLabelCol2.Append("mNumVehicles:\n"
           + "mScheduledStops:\n"
           + "mHeadlights:\n"
@@ -391,7 +391,7 @@ namespace rF2SMMonitor
           + "mQualification:\n"
         );
 
-        this.sbPhaseValues = new StringBuilder();
+        sbPhaseValues = new StringBuilder();
         sbPhaseValues.Append(
           $"{GetEnumString<rF2GamePhase>(scoring.mScoringInfo.mGamePhase)}\n"
           + $"{GetSessionString(scoring.mScoringInfo.mSession)}\n"
@@ -418,7 +418,7 @@ namespace rF2SMMonitor
           + $"{ps.mTotalLaps}\n"
           + $"{ps.mMaxLaps}\n");
 
-        this.sbPhaseValuesCol2 = new StringBuilder();
+        sbPhaseValuesCol2 = new StringBuilder();
         sbPhaseValuesCol2.Append($"{ps.mNumVehicles}\n"
           + (ps.mScheduledStops == 0 ? $"false({ps.mScheduledStops})" : $"true({ps.mScheduledStops})") + "\n"
           + (ps.mHeadlights == 0 ? $"false({ps.mHeadlights})" : $"true({ps.mHeadlights})") + "\n"
@@ -445,13 +445,13 @@ namespace rF2SMMonitor
 
         if (logToFile)
         {
-          var changed = this.sbPhaseChanged.ToString().Split('\n');
-          var labels = this.sbPhaseLabel.ToString().Split('\n');
-          var values = this.sbPhaseValues.ToString().Split('\n');
+          var changed = sbPhaseChanged.ToString().Split('\n');
+          var labels = sbPhaseLabel.ToString().Split('\n');
+          var values = sbPhaseValues.ToString().Split('\n');
 
-          var changedCol2 = this.sbPhaseChangedCol2.ToString().Split('\n');
-          var labelsCol2 = this.sbPhaseLabelCol2.ToString().Split('\n');
-          var valuesCol2 = this.sbPhaseValuesCol2.ToString().Split('\n');
+          var changedCol2 = sbPhaseChangedCol2.ToString().Split('\n');
+          var labelsCol2 = sbPhaseLabelCol2.ToString().Split('\n');
+          var valuesCol2 = sbPhaseValuesCol2.ToString().Split('\n');
 
           var list = new List<string>(changed);
           list.AddRange(changedCol2);
@@ -491,13 +491,13 @@ namespace rF2SMMonitor
 
       if (g != null)
       {
-        g.DrawString(this.sbPhaseChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 3.0f, this.screenYStart + 3.0f);
-        g.DrawString(this.sbPhaseLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, 30.0f, this.screenYStart);
-        g.DrawString(this.sbPhaseValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 130.0f, this.screenYStart);
+        g.DrawString(sbPhaseChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 3.0f, screenYStart + 3.0f);
+        g.DrawString(sbPhaseLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, 30.0f, screenYStart);
+        g.DrawString(sbPhaseValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 130.0f, screenYStart);
 
-        g.DrawString(this.sbPhaseChangedCol2.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 253.0f, this.screenYStart + 3.0f);
-        g.DrawString(this.sbPhaseLabelCol2.ToString(), SystemFonts.DefaultFont, Brushes.Green, 280.0f, this.screenYStart);
-        g.DrawString(this.sbPhaseValuesCol2.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 430.0f, this.screenYStart);
+        g.DrawString(sbPhaseChangedCol2.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 253.0f, screenYStart + 3.0f);
+        g.DrawString(sbPhaseLabelCol2.ToString(), SystemFonts.DefaultFont, Brushes.Green, 280.0f, screenYStart);
+        g.DrawString(sbPhaseValuesCol2.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 430.0f, screenYStart);
       }
     }
 
@@ -545,10 +545,10 @@ namespace rF2SMMonitor
     {
       if (logToFile)
       {
-        if ((this.lastDamageTrackingGamePhase == rF2GamePhase.Garage
-              || this.lastDamageTrackingGamePhase == rF2GamePhase.SessionOver
-              || this.lastDamageTrackingGamePhase == rF2GamePhase.SessionStopped
-              || (int)this.lastDamageTrackingGamePhase == 9)  // What is 9? 
+        if ((lastDamageTrackingGamePhase == rF2GamePhase.Garage
+              || lastDamageTrackingGamePhase == rF2GamePhase.SessionOver
+              || lastDamageTrackingGamePhase == rF2GamePhase.SessionStopped
+              || (int)lastDamageTrackingGamePhase == 9)  // What is 9? 
             && ((rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Countdown
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Formation
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.GridWalk
@@ -564,7 +564,7 @@ namespace rF2SMMonitor
         }
       }
 
-      this.lastDamageTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
+      lastDamageTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
 
       if (scoring.mScoringInfo.mNumVehicles == 0)
         return;
@@ -593,8 +593,8 @@ namespace rF2SMMonitor
       var di = new DamageInfo();
       di.mDentSeverity = playerVehTelemetry.mDentSeverity;
       di.mLastImpactMagnitude = playerVehTelemetry.mLastImpactMagnitude;
-      di.mAccumulatedImpactMagnitude = extended.mTrackedDamages[playerVehTelemetry.mID % rFactor2Constants.MAX_MAPPED_IDS].mAccumulatedImpactMagnitude;
-      di.mMaxImpactMagnitude = extended.mTrackedDamages[playerVehTelemetry.mID % rFactor2Constants.MAX_MAPPED_IDS].mMaxImpactMagnitude;
+      di.mAccumulatedImpactMagnitude = extended.mTrackedDamages[playerVehTelemetry.mID % MAX_MAPPED_IDS].mAccumulatedImpactMagnitude;
+      di.mMaxImpactMagnitude = extended.mTrackedDamages[playerVehTelemetry.mID % MAX_MAPPED_IDS].mMaxImpactMagnitude;
       di.mLastImpactPos = playerVehTelemetry.mLastImpactPos;
       di.mLastImpactET = playerVehTelemetry.mLastImpactET;
       di.mOverheating = playerVehTelemetry.mOverheating;
@@ -610,56 +610,56 @@ namespace rF2SMMonitor
 
       bool dentSevChanged = false;
       for (int i = 0; i < 8; ++i) {
-        if (this.prevDamageInfo.mDentSeverity[i] != di.mDentSeverity[i]) {
+        if (prevDamageInfo.mDentSeverity[i] != di.mDentSeverity[i]) {
           dentSevChanged = true;
           break;
         }
       }
 
-      bool lastImpactPosChanged = di.mLastImpactPos.x != this.prevDamageInfo.mLastImpactPos.x
-        || di.mLastImpactPos.y != this.prevDamageInfo.mLastImpactPos.y
-        || di.mLastImpactPos.z != this.prevDamageInfo.mLastImpactPos.z;
+      bool lastImpactPosChanged = di.mLastImpactPos.x != prevDamageInfo.mLastImpactPos.x
+        || di.mLastImpactPos.y != prevDamageInfo.mLastImpactPos.y
+        || di.mLastImpactPos.z != prevDamageInfo.mLastImpactPos.z;
 
       // Only refresh UI if there's change.
       if (dentSevChanged
-        || di.mLastImpactMagnitude != this.prevDamageInfo.mLastImpactMagnitude
-        || di.mAccumulatedImpactMagnitude != this.prevDamageInfo.mAccumulatedImpactMagnitude
-        || di.mMaxImpactMagnitude != this.prevDamageInfo.mMaxImpactMagnitude
+        || di.mLastImpactMagnitude != prevDamageInfo.mLastImpactMagnitude
+        || di.mAccumulatedImpactMagnitude != prevDamageInfo.mAccumulatedImpactMagnitude
+        || di.mMaxImpactMagnitude != prevDamageInfo.mMaxImpactMagnitude
         || lastImpactPosChanged
-        || di.mLastImpactET != this.prevDamageInfo.mLastImpactET
-        || di.mOverheating != this.prevDamageInfo.mOverheating
-        || di.mDetached != this.prevDamageInfo.mDetached
-        || di.mFrontLeftFlat != this.prevDamageInfo.mFrontLeftFlat
-        || di.mFrontRightFlat != this.prevDamageInfo.mFrontRightFlat
-        || di.mRearLeftFlat != this.prevDamageInfo.mRearLeftFlat
-        || di.mRearRightFlat != this.prevDamageInfo.mRearRightFlat
-        || di.mFrontLeftDetached != this.prevDamageInfo.mFrontLeftDetached
-        || di.mFrontRightDetached != this.prevDamageInfo.mFrontRightDetached
-        || di.mRearLeftDetached != this.prevDamageInfo.mRearLeftDetached
-        || di.mRearRightDetached != this.prevDamageInfo.mRearRightDetached)
+        || di.mLastImpactET != prevDamageInfo.mLastImpactET
+        || di.mOverheating != prevDamageInfo.mOverheating
+        || di.mDetached != prevDamageInfo.mDetached
+        || di.mFrontLeftFlat != prevDamageInfo.mFrontLeftFlat
+        || di.mFrontRightFlat != prevDamageInfo.mFrontRightFlat
+        || di.mRearLeftFlat != prevDamageInfo.mRearLeftFlat
+        || di.mRearRightFlat != prevDamageInfo.mRearRightFlat
+        || di.mFrontLeftDetached != prevDamageInfo.mFrontLeftDetached
+        || di.mFrontRightDetached != prevDamageInfo.mFrontRightDetached
+        || di.mRearLeftDetached != prevDamageInfo.mRearLeftDetached
+        || di.mRearRightDetached != prevDamageInfo.mRearRightDetached)
       {
-        this.sbDamageChanged = new StringBuilder();
+        sbDamageChanged = new StringBuilder();
         sbDamageChanged.Append((dentSevChanged ? "***\n" : "\n")
-          + (di.mLastImpactMagnitude != this.prevDamageInfo.mLastImpactMagnitude ? "***\n" : "\n")
-          + (di.mAccumulatedImpactMagnitude != this.prevDamageInfo.mAccumulatedImpactMagnitude ? "***\n" : "\n")
-          + (di.mMaxImpactMagnitude != this.prevDamageInfo.mMaxImpactMagnitude ? "***\n" : "\n")
+          + (di.mLastImpactMagnitude != prevDamageInfo.mLastImpactMagnitude ? "***\n" : "\n")
+          + (di.mAccumulatedImpactMagnitude != prevDamageInfo.mAccumulatedImpactMagnitude ? "***\n" : "\n")
+          + (di.mMaxImpactMagnitude != prevDamageInfo.mMaxImpactMagnitude ? "***\n" : "\n")
           + (lastImpactPosChanged ? "***\n" : "\n")
-          + (di.mLastImpactET != this.prevDamageInfo.mLastImpactET ? "***\n" : "\n")
-          + (di.mOverheating != this.prevDamageInfo.mOverheating ? "***\n" : "\n")
-          + (di.mDetached != this.prevDamageInfo.mDetached ? "***\n" : "\n")
-          + ((di.mFrontLeftFlat != this.prevDamageInfo.mFrontLeftFlat
-              || di.mFrontRightFlat != this.prevDamageInfo.mFrontRightFlat
-              || di.mFrontLeftDetached != this.prevDamageInfo.mFrontLeftDetached
-              || di.mFrontRightDetached != this.prevDamageInfo.mFrontRightDetached) ? "***\n" : "\n")
-          + ((di.mRearLeftFlat != this.prevDamageInfo.mRearLeftFlat
-              || di.mRearRightFlat != this.prevDamageInfo.mRearRightFlat
-              || di.mRearLeftDetached != this.prevDamageInfo.mRearLeftDetached
-              || di.mRearRightDetached != this.prevDamageInfo.mRearRightDetached) ? "***\n" : "\n"));
+          + (di.mLastImpactET != prevDamageInfo.mLastImpactET ? "***\n" : "\n")
+          + (di.mOverheating != prevDamageInfo.mOverheating ? "***\n" : "\n")
+          + (di.mDetached != prevDamageInfo.mDetached ? "***\n" : "\n")
+          + ((di.mFrontLeftFlat != prevDamageInfo.mFrontLeftFlat
+              || di.mFrontRightFlat != prevDamageInfo.mFrontRightFlat
+              || di.mFrontLeftDetached != prevDamageInfo.mFrontLeftDetached
+              || di.mFrontRightDetached != prevDamageInfo.mFrontRightDetached) ? "***\n" : "\n")
+          + ((di.mRearLeftFlat != prevDamageInfo.mRearLeftFlat
+              || di.mRearRightFlat != prevDamageInfo.mRearRightFlat
+              || di.mRearLeftDetached != prevDamageInfo.mRearLeftDetached
+              || di.mRearRightDetached != prevDamageInfo.mRearRightDetached) ? "***\n" : "\n"));
 
         // Save current damage info.
-        this.prevDamageInfo = di;
+        prevDamageInfo = di;
 
-        this.sbDamageLabel = new StringBuilder();
+        sbDamageLabel = new StringBuilder();
         sbDamageLabel.Append(
           "mDentSeverity:\n"
           + "mLastImpactMagnitude:\n"
@@ -672,7 +672,7 @@ namespace rF2SMMonitor
           + "Front Wheels:\n"
           + "Rear Wheels:\n");
 
-        this.sbDamageValues = new StringBuilder();
+        sbDamageValues = new StringBuilder();
         sbDamageValues.Append(
           $"{di.mDentSeverity[0]},{di.mDentSeverity[1]},{di.mDentSeverity[2]},{di.mDentSeverity[3]},{di.mDentSeverity[4]},{di.mDentSeverity[5]},{di.mDentSeverity[6]},{di.mDentSeverity[7]}\n"
           + $"{di.mLastImpactMagnitude:N1}\n"
@@ -688,9 +688,9 @@ namespace rF2SMMonitor
 
         if (logToFile)
         {
-          var changed = this.sbDamageChanged.ToString().Split('\n');
-          var labels = this.sbDamageLabel.ToString().Split('\n');
-          var values = this.sbDamageValues.ToString().Split('\n');
+          var changed = sbDamageChanged.ToString().Split('\n');
+          var labels = sbDamageLabel.ToString().Split('\n');
+          var values = sbDamageValues.ToString().Split('\n');
           Debug.Assert(changed.Length == labels.Length && values.Length == labels.Length);
 
           var lines = new List<string>();
@@ -716,10 +716,10 @@ namespace rF2SMMonitor
 
       if (g != null)
       {
-        var dmgYStart = this.screenYStart + 310.0f;
-        g.DrawString(this.sbDamageChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 3.0f, dmgYStart + 3.0f);
-        g.DrawString(this.sbDamageLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, 30.0f, dmgYStart);
-        g.DrawString(this.sbDamageValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 200.0f, dmgYStart);
+        var dmgYStart = screenYStart + 310.0f;
+        g.DrawString(sbDamageChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 3.0f, dmgYStart + 3.0f);
+        g.DrawString(sbDamageLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, 30.0f, dmgYStart);
+        g.DrawString(sbDamageValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 200.0f, dmgYStart);
       }
     }
 
@@ -805,17 +805,17 @@ namespace rF2SMMonitor
 
     internal void TrackTimings(ref rF2Scoring scoring, ref rF2Telemetry telemetry, ref rF2Rules rules, ref rF2Extended extended, Graphics g, bool logToFile)
     {
-      if ((this.lastTimingTrackingGamePhase == rF2GamePhase.Garage
-            || this.lastTimingTrackingGamePhase == rF2GamePhase.SessionOver
-            || this.lastTimingTrackingGamePhase == rF2GamePhase.SessionStopped
-            || (int)this.lastTimingTrackingGamePhase == 9)  // What is 9? 
+      if ((lastTimingTrackingGamePhase == rF2GamePhase.Garage
+            || lastTimingTrackingGamePhase == rF2GamePhase.SessionOver
+            || lastTimingTrackingGamePhase == rF2GamePhase.SessionStopped
+            || (int)lastTimingTrackingGamePhase == 9)  // What is 9? 
           && ((rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Countdown
             || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Formation
             || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.GridWalk
             || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.GreenFlag))
       {
-        this.lapDataMap = null;
-        this.bestSplitString = "";
+        lapDataMap = null;
+        bestSplitString = "";
         if (logToFile)
         {
           var lines = new List<string>();
@@ -827,20 +827,20 @@ namespace rF2SMMonitor
         }
       }
 
-      this.lastTimingTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
+      lastTimingTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
 
       if (scoring.mScoringInfo.mNumVehicles == 0 
         || extended.mSessionStarted == 0)
       {
-        this.lastTimingSector = -1;
-        this.lapDataMap = null;
-        this.bestSplitString = "";
+        lastTimingSector = -1;
+        lapDataMap = null;
+        bestSplitString = "";
 
         return;
       }
 
-      if (this.lapDataMap == null)
-        this.lapDataMap = new Dictionary<string, LapData>();
+      if (lapDataMap == null)
+        lapDataMap = new Dictionary<string, LapData>();
 
       // Build map of mID -> telemetry.mVehicles[i]. 
       // They are typically matching values, however, we need to handle online cases and dropped vehicles (mID can be reused).
@@ -863,15 +863,15 @@ namespace rF2SMMonitor
       var resolvedIdx = idsToTelIndices[scoringPlrId];
       var playerVehTelemetry = telemetry.mVehicles[resolvedIdx];
 
-      bool sectorChanged = this.lastTimingSector != this.GetSector(playerVeh.mSector);
-      bool newLap = this.lastTimingSector == 3 && this.GetSector(playerVeh.mSector) == 1;
+      bool sectorChanged = lastTimingSector != GetSector(playerVeh.mSector);
+      bool newLap = lastTimingSector == 3 && GetSector(playerVeh.mSector) == 1;
 
-      this.lastTimingSector = this.GetSector(playerVeh.mSector);
+      lastTimingSector = GetSector(playerVeh.mSector);
 
       StringBuilder sbPlayer = null;
       PlayerTimingInfo ptiPlayer = null;
-      var bls = this.getBestLapStats(TransitionTracker.GetStringFromBytes(playerVeh.mDriverName), newLap /*skipLastLap*/);
-      this.getDetailedVehTiming("Player:", ref playerVeh, bls, ref scoring, out sbPlayer, out ptiPlayer);
+      var bls = getBestLapStats(GetStringFromBytes(playerVeh.mDriverName), newLap /*skipLastLap*/);
+      getDetailedVehTiming("Player:", ref playerVeh, bls, ref scoring, out sbPlayer, out ptiPlayer);
 
       var opponentInfos = new List<OpponentTimingInfo>();
       for (int i = 0; i < scoring.mScoringInfo.mNumVehicles; ++i)
@@ -879,7 +879,7 @@ namespace rF2SMMonitor
         var veh = scoring.mVehicles[i];
         var o = new OpponentTimingInfo();
         o.mID = veh.mID;
-        o.name = TransitionTracker.GetStringFromBytes(veh.mDriverName);
+        o.name = GetStringFromBytes(veh.mDriverName);
         o.position = veh.mPlace;
 
         o.lastS1Time = veh.mLastSector1 > 0.0 ? veh.mLastSector1 : -1.0;
@@ -911,8 +911,8 @@ namespace rF2SMMonitor
         o.currLapTime = scoring.mScoringInfo.mCurrentET - veh.mLapStartET;
         o.bestLapTime = veh.mBestLapTime;
         o.currLap = veh.mTotalLaps;
-        o.vehicleName = TransitionTracker.GetStringFromBytes(veh.mVehicleName);
-        o.vehicleClass = TransitionTracker.GetStringFromBytes(veh.mVehicleClass);
+        o.vehicleName = GetStringFromBytes(veh.mVehicleName);
+        o.vehicleClass = GetStringFromBytes(veh.mVehicleClass);
 
         opponentInfos.Add(o);
       }
@@ -928,18 +928,18 @@ namespace rF2SMMonitor
       for (int i = 0; i < scoring.mScoringInfo.mNumVehicles; ++i)
       {
         var veh = scoring.mVehicles[i];
-        var driverName = TransitionTracker.GetStringFromBytes(veh.mDriverName);
+        var driverName = GetStringFromBytes(veh.mDriverName);
 
         // If we don't have this vehicle in a map, add it. (And initialize laps completed).
-        if (!this.lapDataMap.ContainsKey(driverName))
+        if (!lapDataMap.ContainsKey(driverName))
         {
           var ldNew = new LapData();
           ldNew.lastLapCompleted = veh.mTotalLaps;
-          this.lapDataMap.Add(driverName, ldNew);
+          lapDataMap.Add(driverName, ldNew);
         }
 
         // If this is the new lap for this vehicle, update the lastLapNumber, and save last lap stats.
-        var ld = this.lapDataMap[driverName];
+        var ld = lapDataMap[driverName];
         if (ld.lastLapCompleted != veh.mTotalLaps)
         {
           ld.lastLapCompleted = veh.mTotalLaps;
@@ -972,8 +972,8 @@ namespace rF2SMMonitor
       sbOpponentStats.Append("Pos:  Lap:      Best Tracked:      Best S1:      Best S2:      Best S3:     Col. Assigned:    Pos. Assigned:\n");
       foreach (var o in opponentInfos)
       {
-        var skipLastLap = o.name == TransitionTracker.GetStringFromBytes(playerVeh.mDriverName) && newLap;
-        var bestLapStats = this.getBestLapStats(o.name, skipLastLap);
+        var skipLastLap = o.name == GetStringFromBytes(playerVeh.mDriverName) && newLap;
+        var bestLapStats = getBestLapStats(o.name, skipLastLap);
 
         var bestLapS1 = bestLapStats.S1Time;
         var bestLapS2 = bestLapStats.S2Time;
@@ -985,18 +985,18 @@ namespace rF2SMMonitor
         if (idsToParticipantIndices.TryGetValue(o.mID, out participantIdx))
           opponetRules = rules.mParticipants[participantIdx];
 
-        sbOpponentStats.Append($"{o.position,5}{o.currLap,8}{this.LapTimeStr(bestLapTimeTracked),22:N3}{this.LapTimeStr(bestLapS1),13:N3}{this.LapTimeStr(bestLapS2),13:N3}{this.LapTimeStr(bestLapS3),13:N3}{opponetRules.mColumnAssignment,17}{opponetRules.mPositionAssignment,13}\n");
+        sbOpponentStats.Append($"{o.position,5}{o.currLap,8}{LapTimeStr(bestLapTimeTracked),22:N3}{LapTimeStr(bestLapS1),13:N3}{LapTimeStr(bestLapS2),13:N3}{LapTimeStr(bestLapS3),13:N3}{opponetRules.mColumnAssignment,17}{opponetRules.mPositionAssignment,13}\n");
       }
 
       // Find fastest vehicle.
       var blsFastest = new LapData.LapStats();
       var fastestName = "";
-      foreach (var lapData in this.lapDataMap)
+      foreach (var lapData in lapDataMap)
       {
         // If this is the new lap, ignore just completed lap for the player vehicle, and use time of one lap before.
-        bool skipLastLap = newLap && lapData.Key == TransitionTracker.GetStringFromBytes(playerVeh.mDriverName);
+        bool skipLastLap = newLap && lapData.Key == GetStringFromBytes(playerVeh.mDriverName);
 
-        var blsCandidate = this.getBestLapStats(lapData.Key, skipLastLap);
+        var blsCandidate = getBestLapStats(lapData.Key, skipLastLap);
         if (blsCandidate.lapTime < 0.0)
           continue;
 
@@ -1011,7 +1011,7 @@ namespace rF2SMMonitor
       int fastestIndex = -1;
       for (int i = 0; i < scoring.mScoringInfo.mNumVehicles; ++i)
       {
-        if (fastestName == TransitionTracker.GetStringFromBytes(scoring.mVehicles[i].mDriverName))
+        if (fastestName == GetStringFromBytes(scoring.mVehicles[i].mDriverName))
         {
           fastestIndex = i;
           break;
@@ -1026,7 +1026,7 @@ namespace rF2SMMonitor
         if (blsFastest.lapTime > 0.0)
         {
         //'  var blsFastest = this.getBestLapStats(this.getStringFromBytes(fastestVeh.mDriverName));
-          this.getDetailedVehTiming("Fastest:", ref fastestVeh, blsFastest, ref scoring, out sbFastest, out ptiFastest);
+          getDetailedVehTiming("Fastest:", ref fastestVeh, blsFastest, ref scoring, out sbFastest, out ptiFastest);
         }
       }
 
@@ -1066,7 +1066,7 @@ namespace rF2SMMonitor
         if (sectorChanged)
         {
           // Calculate "Best Split" to match rFactor 2 HUDs
-          var currSector = this.GetSector(playerVeh.mSector);
+          var currSector = GetSector(playerVeh.mSector);
           double bestSplit = 0.0;
           if (currSector == 1)
             bestSplit = ptiPlayer.lastLapTime - ptiFastest.bestLapTime;
@@ -1078,10 +1078,10 @@ namespace rF2SMMonitor
           var bestSplitStr = bestSplit > 0.0 ? "+" : "";
           bestSplitStr += $"{bestSplit:N3}";
 
-          this.bestSplitString = $"Best Split: {bestSplitStr}\n\n";
+          bestSplitString = $"Best Split: {bestSplitStr}\n\n";
         }
 
-        sbPlayerDeltas.Append(this.bestSplitString);
+        sbPlayerDeltas.Append(bestSplitString);
 
         var deltaSelfLapStr = deltaSelfLapTime > 0.0 ? "+" : "";
         deltaSelfLapStr = deltaSelfLapStr + $"{deltaSelfLapTime:N3}";
@@ -1115,7 +1115,7 @@ namespace rF2SMMonitor
       if (logToFile && sectorChanged)
       {
         var updateTime = DateTime.Now.ToString();
-        File.AppendAllText(timingTrackingFilePath, $"\n\n{updateTime}    Sector: {this.lastTimingSector}  ***************************************************** \n\n");
+        File.AppendAllText(timingTrackingFilePath, $"\n\n{updateTime}    Sector: {lastTimingSector}  ***************************************************** \n\n");
 
         File.AppendAllText(timingTrackingFilePath, sbPlayer.ToString() + "\n");
         File.AppendAllText(timingTrackingFilePath, sbPlayerDeltas.ToString() + "\n");
@@ -1134,7 +1134,7 @@ namespace rF2SMMonitor
 
       if (g != null)
       {
-        var timingsYStart = this.screenYStart + 435.0f;
+        var timingsYStart = screenYStart + 435.0f;
         g.DrawString(sbPlayer.ToString(), SystemFonts.DefaultFont, Brushes.Magenta, 3.0f, timingsYStart);
         g.DrawString(sbPlayerDeltas.ToString(), SystemFonts.DefaultFont, Brushes.Black, 3.0f, timingsYStart + 70.0f);
         g.DrawString(sbFastest.ToString(), SystemFonts.DefaultFont, Brushes.OrangeRed, 3.0f, timingsYStart + 200.0f);
@@ -1146,9 +1146,9 @@ namespace rF2SMMonitor
     private LapData.LapStats getBestLapStats(string opponentName, bool skipLastLap)
     {
       LapData.LapStats bestLapStats = new LapData.LapStats();
-      if (this.lapDataMap.ContainsKey(opponentName))
+      if (lapDataMap.ContainsKey(opponentName))
       {
-        var opLd = this.lapDataMap[opponentName];
+        var opLd = lapDataMap[opponentName];
 
         double bestLapTimeTracked = -1.0;
         var lapsToCheck = opLd.lapStats.Count;
@@ -1173,7 +1173,7 @@ namespace rF2SMMonitor
     private void getDetailedVehTiming(string name, ref rF2VehicleScoring vehicle, LapData.LapStats bestLapStats, ref rF2Scoring scoring, out StringBuilder sbDetails, out PlayerTimingInfo pti)
     {
       pti = new PlayerTimingInfo();
-      pti.name = TransitionTracker.GetStringFromBytes(vehicle.mDriverName);
+      pti.name = GetStringFromBytes(vehicle.mDriverName);
       pti.lastS1Time = vehicle.mLastSector1 > 0.0 ? vehicle.mLastSector1 : -1.0;
       pti.lastS2Time = vehicle.mLastSector1 > 0.0 && vehicle.mLastSector2 > 0.0
         ? vehicle.mLastSector2 - vehicle.mLastSector1 : -1.0;
@@ -1212,10 +1212,10 @@ namespace rF2SMMonitor
       pti.currLap = vehicle.mTotalLaps;
 
       sbDetails = new StringBuilder();
-      sbDetails.Append($"{name} {pti.name}\ncurrLapET: {this.LapTimeStr(pti.currLapET)}    lastLapTime: {this.LapTimeStr(pti.lastLapTime)}    currLapTime: {this.LapTimeStr(pti.currLapTime)}    bestLapTime: {this.LapTimeStr(pti.bestLapTime)}\n");
-      sbDetails.Append($"lastS1: {this.LapTimeStr(pti.lastS1Time)}    lastS2: {this.LapTimeStr(pti.lastS2Time)}    lastS3: {this.LapTimeStr(pti.lastS3Time)}\n");
-      sbDetails.Append($"currS1: {this.LapTimeStr(pti.currS1Time)}    currS2: {this.LapTimeStr(pti.currS2Time)}    currS3: {this.LapTimeStr(pti.currS3Time)}\n");
-      sbDetails.Append($"bestS1: {this.LapTimeStr(pti.bestS1Time)}    bestS2: {this.LapTimeStr(pti.bestS2Time)}    bestS3: {this.LapTimeStr(pti.bestS3Time)}    bestTotal: {this.LapTimeStr(pti.bestS1Time + pti.bestS2Time + pti.bestS3Time)}\n");
+      sbDetails.Append($"{name} {pti.name}\ncurrLapET: {LapTimeStr(pti.currLapET)}    lastLapTime: {LapTimeStr(pti.lastLapTime)}    currLapTime: {LapTimeStr(pti.currLapTime)}    bestLapTime: {LapTimeStr(pti.bestLapTime)}\n");
+      sbDetails.Append($"lastS1: {LapTimeStr(pti.lastS1Time)}    lastS2: {LapTimeStr(pti.lastS2Time)}    lastS3: {LapTimeStr(pti.lastS3Time)}\n");
+      sbDetails.Append($"currS1: {LapTimeStr(pti.currS1Time)}    currS2: {LapTimeStr(pti.currS2Time)}    currS3: {LapTimeStr(pti.currS3Time)}\n");
+      sbDetails.Append($"bestS1: {LapTimeStr(pti.bestS1Time)}    bestS2: {LapTimeStr(pti.bestS2Time)}    bestS3: {LapTimeStr(pti.bestS3Time)}    bestTotal: {LapTimeStr(pti.bestS1Time + pti.bestS2Time + pti.bestS3Time)}\n");
     }
 
     internal class Rules
@@ -1331,10 +1331,10 @@ namespace rF2SMMonitor
     {
       if (logToFile)
       {
-        if ((this.lastRulesTrackingGamePhase == rF2GamePhase.Garage
-              || this.lastRulesTrackingGamePhase == rF2GamePhase.SessionOver
-              || this.lastRulesTrackingGamePhase == rF2GamePhase.SessionStopped
-              || (int)this.lastRulesTrackingGamePhase == 9)  // What is 9? 
+        if ((lastRulesTrackingGamePhase == rF2GamePhase.Garage
+              || lastRulesTrackingGamePhase == rF2GamePhase.SessionOver
+              || lastRulesTrackingGamePhase == rF2GamePhase.SessionStopped
+              || (int)lastRulesTrackingGamePhase == 9)  // What is 9? 
             && ((rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Countdown
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.Formation
               || (rF2GamePhase)scoring.mScoringInfo.mGamePhase == rF2GamePhase.GridWalk
@@ -1350,7 +1350,7 @@ namespace rF2SMMonitor
         }
       }
 
-      this.lastRulesTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
+      lastRulesTrackingGamePhase = (rF2GamePhase)scoring.mScoringInfo.mGamePhase;
 
       if (scoring.mScoringInfo.mNumVehicles == 0)
         return;
@@ -1412,7 +1412,7 @@ namespace rF2SMMonitor
       rs.mMaximumColumnSpacing = rules.mTrackRules.mMaximumColumnSpacing;
       rs.mMinimumSpeed = rules.mTrackRules.mMinimumSpeed;
       rs.mMaximumSpeed = rules.mTrackRules.mMaximumSpeed;
-      rs.mMessage = TransitionTracker.GetStringFromBytes(rules.mTrackRules.mMessage);
+      rs.mMessage = GetStringFromBytes(rules.mTrackRules.mMessage);
 
       // Player specific:
       rs.mFrozenOrder = playerRules.mFrozenOrder;
@@ -1424,87 +1424,87 @@ namespace rF2SMMonitor
       rs.mPositionAssignment = playerRules.mPositionAssignment;
       rs.mPitsOpen = playerRules.mPitsOpen;
       rs.mGoalRelativeDistance = playerRules.mGoalRelativeDistance;
-      rs.mMessage_Participant = TransitionTracker.GetStringFromBytes(playerRules.mMessage);
+      rs.mMessage_Participant = GetStringFromBytes(playerRules.mMessage);
 
       // Only refresh UI if there's change.
       // some fields are commented out because they change pretty much every frame.
-      if (rs.mStage != this.prevRules.mStage
-        || rs.mPoleColumn != this.prevRules.mPoleColumn
-        || rs.mNumActions != this.prevRules.mNumActions
-        || rs.mNumParticipants != this.prevRules.mNumParticipants
-        || rs.mYellowFlagDetected != this.prevRules.mYellowFlagDetected
-        || rs.mYellowFlagLapsWasOverridden != this.prevRules.mYellowFlagLapsWasOverridden
-        || rs.mSafetyCarExists != this.prevRules.mSafetyCarExists
-        || rs.mSafetyCarActive != this.prevRules.mSafetyCarActive
-        || rs.mSafetyCarLaps != this.prevRules.mSafetyCarLaps
-        || rs.mSafetyCarThreshold != this.prevRules.mSafetyCarThreshold
+      if (rs.mStage != prevRules.mStage
+        || rs.mPoleColumn != prevRules.mPoleColumn
+        || rs.mNumActions != prevRules.mNumActions
+        || rs.mNumParticipants != prevRules.mNumParticipants
+        || rs.mYellowFlagDetected != prevRules.mYellowFlagDetected
+        || rs.mYellowFlagLapsWasOverridden != prevRules.mYellowFlagLapsWasOverridden
+        || rs.mSafetyCarExists != prevRules.mSafetyCarExists
+        || rs.mSafetyCarActive != prevRules.mSafetyCarActive
+        || rs.mSafetyCarLaps != prevRules.mSafetyCarLaps
+        || rs.mSafetyCarThreshold != prevRules.mSafetyCarThreshold
         //public double mSafetyCarLapDist             // safety car lap distance
         //public float mSafetyCarLapDistAtStart       // where the safety car starts from
-        || rs.mPitLaneStartDist != this.prevRules.mPitLaneStartDist
-        || rs.mTeleportLapDist != this.prevRules.mTeleportLapDist
-        || rs.mYellowFlagState != this.prevRules.mYellowFlagState
-        || rs.mYellowFlagLaps != this.prevRules.mYellowFlagLaps
-        || rs.mSafetyCarInstruction != this.prevRules.mSafetyCarInstruction
-        || rs.mSafetyCarSpeed != this.prevRules.mSafetyCarSpeed
-        || rs.mSafetyCarMinimumSpacing != this.prevRules.mSafetyCarMinimumSpacing
-        || rs.mSafetyCarMaximumSpacing != this.prevRules.mSafetyCarMaximumSpacing
-        || rs.mMinimumColumnSpacing != this.prevRules.mMinimumColumnSpacing
-        || rs.mMaximumColumnSpacing != this.prevRules.mMaximumColumnSpacing
-        || rs.mMinimumSpeed != this.prevRules.mMinimumSpeed
-        || rs.mMaximumSpeed != this.prevRules.mMaximumSpeed
-        || rs.mMessage != this.prevRules.mMessage
-        || rs.mFrozenOrder != this.prevRules.mFrozenOrder
-        || rs.mPlace != this.prevRules.mPlace
+        || rs.mPitLaneStartDist != prevRules.mPitLaneStartDist
+        || rs.mTeleportLapDist != prevRules.mTeleportLapDist
+        || rs.mYellowFlagState != prevRules.mYellowFlagState
+        || rs.mYellowFlagLaps != prevRules.mYellowFlagLaps
+        || rs.mSafetyCarInstruction != prevRules.mSafetyCarInstruction
+        || rs.mSafetyCarSpeed != prevRules.mSafetyCarSpeed
+        || rs.mSafetyCarMinimumSpacing != prevRules.mSafetyCarMinimumSpacing
+        || rs.mSafetyCarMaximumSpacing != prevRules.mSafetyCarMaximumSpacing
+        || rs.mMinimumColumnSpacing != prevRules.mMinimumColumnSpacing
+        || rs.mMaximumColumnSpacing != prevRules.mMaximumColumnSpacing
+        || rs.mMinimumSpeed != prevRules.mMinimumSpeed
+        || rs.mMaximumSpeed != prevRules.mMaximumSpeed
+        || rs.mMessage != prevRules.mMessage
+        || rs.mFrozenOrder != prevRules.mFrozenOrder
+        || rs.mPlace != prevRules.mPlace
         //|| rs.mYellowSeverity != this.prevRules.mYellowSeverity
         //|| rs.mCurrentRelativeDistance != this.prevRules.mCurrentRelativeDistance
-        || rs.mRelativeLaps != this.prevRules.mRelativeLaps
-        || rs.mColumnAssignment != this.prevRules.mColumnAssignment
-        || rs.mPositionAssignment != this.prevRules.mPositionAssignment
-        || rs.mPitsOpen != this.prevRules.mPitsOpen
-        || rs.mGoalRelativeDistance != this.prevRules.mGoalRelativeDistance
-        || rs.mMessage_Participant != this.prevRules.mMessage_Participant)
+        || rs.mRelativeLaps != prevRules.mRelativeLaps
+        || rs.mColumnAssignment != prevRules.mColumnAssignment
+        || rs.mPositionAssignment != prevRules.mPositionAssignment
+        || rs.mPitsOpen != prevRules.mPitsOpen
+        || rs.mGoalRelativeDistance != prevRules.mGoalRelativeDistance
+        || rs.mMessage_Participant != prevRules.mMessage_Participant)
       {
-        this.sbRulesChanged = new StringBuilder();
-        sbRulesChanged.Append((rs.mStage != this.prevRules.mStage ? "***\n" : "\n")
-          + (rs.mPoleColumn != this.prevRules.mPoleColumn ? "***\n" : "\n")
-          + (rs.mNumActions != this.prevRules.mNumActions ? "***\n" : "\n")
-          + (rs.mNumParticipants != this.prevRules.mNumParticipants ? "***\n" : "\n")
-          + (rs.mYellowFlagDetected != this.prevRules.mYellowFlagDetected ? "***\n" : "\n")
-          + (rs.mYellowFlagLapsWasOverridden != this.prevRules.mYellowFlagLapsWasOverridden ? "***\n" : "\n")
-          + (rs.mSafetyCarExists != this.prevRules.mSafetyCarExists ? "***\n" : "\n")
-          + (rs.mSafetyCarActive != this.prevRules.mSafetyCarActive ? "***\n" : "\n")
-          + (rs.mSafetyCarLaps != this.prevRules.mSafetyCarLaps ? "***\n" : "\n")
-          + (rs.mSafetyCarThreshold != this.prevRules.mSafetyCarThreshold ? "***\n" : "\n")
-          + (rs.mSafetyCarLapDist != this.prevRules.mSafetyCarLapDist ? "***\n" : "\n")
-          + (rs.mSafetyCarLapDistAtStart != this.prevRules.mSafetyCarLapDistAtStart ? "***\n" : "\n")
-          + (rs.mPitLaneStartDist != this.prevRules.mPitLaneStartDist ? "***\n" : "\n")
-          + (rs.mTeleportLapDist != this.prevRules.mTeleportLapDist ? "***\n" : "\n")
-          + (rs.mYellowFlagState != this.prevRules.mYellowFlagState ? "***\n" : "\n")
-          + (rs.mYellowFlagLaps != this.prevRules.mYellowFlagLaps ? "***\n" : "\n")
-          + (rs.mSafetyCarInstruction != this.prevRules.mSafetyCarInstruction ? "***\n" : "\n")
-          + (rs.mSafetyCarSpeed != this.prevRules.mSafetyCarSpeed ? "***\n" : "\n")
-          + (rs.mSafetyCarMinimumSpacing != this.prevRules.mSafetyCarMinimumSpacing ? "***\n" : "\n")
-          + (rs.mSafetyCarMaximumSpacing != this.prevRules.mSafetyCarMaximumSpacing ? "***\n" : "\n")
-          + (rs.mMinimumColumnSpacing != this.prevRules.mMinimumColumnSpacing ? "***\n" : "\n")
-          + (rs.mMaximumColumnSpacing != this.prevRules.mMaximumColumnSpacing ? "***\n" : "\n")
-          + (rs.mMinimumSpeed != this.prevRules.mMinimumSpeed ? "***\n" : "\n")
-          + (rs.mMaximumSpeed != this.prevRules.mMaximumSpeed ? "***\n" : "\n")
-          + (rs.mMessage != this.prevRules.mMessage ? "***\n" : "\n")
-          + (rs.mFrozenOrder != this.prevRules.mFrozenOrder ? "***\n" : "\n")
-          + (rs.mPlace != this.prevRules.mPlace ? "***\n" : "\n")
-          + (rs.mYellowSeverity != this.prevRules.mYellowSeverity ? "***\n" : "\n")
-          + (rs.mCurrentRelativeDistance != this.prevRules.mCurrentRelativeDistance ? "***\n" : "\n")
-          + (rs.mRelativeLaps != this.prevRules.mRelativeLaps ? "***\n" : "\n")
-          + (rs.mColumnAssignment != this.prevRules.mColumnAssignment ? "***\n" : "\n")
-          + (rs.mPositionAssignment != this.prevRules.mPositionAssignment ? "***\n" : "\n")
-          + (rs.mPitsOpen != this.prevRules.mPitsOpen ? "***\n" : "\n")
-          + (rs.mGoalRelativeDistance != this.prevRules.mGoalRelativeDistance ? "***\n" : "\n")
-          + (rs.mMessage_Participant != this.prevRules.mMessage_Participant ? "***\n" : "\n"));
+        sbRulesChanged = new StringBuilder();
+        sbRulesChanged.Append((rs.mStage != prevRules.mStage ? "***\n" : "\n")
+          + (rs.mPoleColumn != prevRules.mPoleColumn ? "***\n" : "\n")
+          + (rs.mNumActions != prevRules.mNumActions ? "***\n" : "\n")
+          + (rs.mNumParticipants != prevRules.mNumParticipants ? "***\n" : "\n")
+          + (rs.mYellowFlagDetected != prevRules.mYellowFlagDetected ? "***\n" : "\n")
+          + (rs.mYellowFlagLapsWasOverridden != prevRules.mYellowFlagLapsWasOverridden ? "***\n" : "\n")
+          + (rs.mSafetyCarExists != prevRules.mSafetyCarExists ? "***\n" : "\n")
+          + (rs.mSafetyCarActive != prevRules.mSafetyCarActive ? "***\n" : "\n")
+          + (rs.mSafetyCarLaps != prevRules.mSafetyCarLaps ? "***\n" : "\n")
+          + (rs.mSafetyCarThreshold != prevRules.mSafetyCarThreshold ? "***\n" : "\n")
+          + (rs.mSafetyCarLapDist != prevRules.mSafetyCarLapDist ? "***\n" : "\n")
+          + (rs.mSafetyCarLapDistAtStart != prevRules.mSafetyCarLapDistAtStart ? "***\n" : "\n")
+          + (rs.mPitLaneStartDist != prevRules.mPitLaneStartDist ? "***\n" : "\n")
+          + (rs.mTeleportLapDist != prevRules.mTeleportLapDist ? "***\n" : "\n")
+          + (rs.mYellowFlagState != prevRules.mYellowFlagState ? "***\n" : "\n")
+          + (rs.mYellowFlagLaps != prevRules.mYellowFlagLaps ? "***\n" : "\n")
+          + (rs.mSafetyCarInstruction != prevRules.mSafetyCarInstruction ? "***\n" : "\n")
+          + (rs.mSafetyCarSpeed != prevRules.mSafetyCarSpeed ? "***\n" : "\n")
+          + (rs.mSafetyCarMinimumSpacing != prevRules.mSafetyCarMinimumSpacing ? "***\n" : "\n")
+          + (rs.mSafetyCarMaximumSpacing != prevRules.mSafetyCarMaximumSpacing ? "***\n" : "\n")
+          + (rs.mMinimumColumnSpacing != prevRules.mMinimumColumnSpacing ? "***\n" : "\n")
+          + (rs.mMaximumColumnSpacing != prevRules.mMaximumColumnSpacing ? "***\n" : "\n")
+          + (rs.mMinimumSpeed != prevRules.mMinimumSpeed ? "***\n" : "\n")
+          + (rs.mMaximumSpeed != prevRules.mMaximumSpeed ? "***\n" : "\n")
+          + (rs.mMessage != prevRules.mMessage ? "***\n" : "\n")
+          + (rs.mFrozenOrder != prevRules.mFrozenOrder ? "***\n" : "\n")
+          + (rs.mPlace != prevRules.mPlace ? "***\n" : "\n")
+          + (rs.mYellowSeverity != prevRules.mYellowSeverity ? "***\n" : "\n")
+          + (rs.mCurrentRelativeDistance != prevRules.mCurrentRelativeDistance ? "***\n" : "\n")
+          + (rs.mRelativeLaps != prevRules.mRelativeLaps ? "***\n" : "\n")
+          + (rs.mColumnAssignment != prevRules.mColumnAssignment ? "***\n" : "\n")
+          + (rs.mPositionAssignment != prevRules.mPositionAssignment ? "***\n" : "\n")
+          + (rs.mPitsOpen != prevRules.mPitsOpen ? "***\n" : "\n")
+          + (rs.mGoalRelativeDistance != prevRules.mGoalRelativeDistance ? "***\n" : "\n")
+          + (rs.mMessage_Participant != prevRules.mMessage_Participant ? "***\n" : "\n"));
 
         // Save current Rules and state.
-        this.prevRules = rs;
+        prevRules = rs;
 
-        this.sbRulesLabel = new StringBuilder();
+        sbRulesLabel = new StringBuilder();
         sbRulesLabel.Append("mStage:\n"
           + "mPoleColumn:\n"
           + "mNumActions:\n"
@@ -1541,7 +1541,7 @@ namespace rF2SMMonitor
           + "mGoalRelativeDistance:\n"
           + "mMessage_Participant:\n");
 
-        this.sbRulesValues = new StringBuilder();
+        sbRulesValues = new StringBuilder();
         sbRulesValues.Append($"{rs.mStage}\n"
           + $"{rs.mPoleColumn}\n"
           + $"{rs.mNumActions}\n"
@@ -1580,9 +1580,9 @@ namespace rF2SMMonitor
 
         if (logToFile)
         {
-          var changed = this.sbRulesChanged.ToString().Split('\n');
-          var labels = this.sbRulesLabel.ToString().Split('\n');
-          var values = this.sbRulesValues.ToString().Split('\n');
+          var changed = sbRulesChanged.ToString().Split('\n');
+          var labels = sbRulesLabel.ToString().Split('\n');
+          var values = sbRulesValues.ToString().Split('\n');
 
           var list = new List<string>(changed);
           changed = list.ToArray();
@@ -1618,7 +1618,7 @@ namespace rF2SMMonitor
       }
 
       var distToSC = -1.0;
-      var fod = this.GetFrozenOrderData(prevFrozenOrderData, ref playerVeh, ref scoring, ref playerRules, ref rules, ref extended, ref distToSC);
+      var fod = GetFrozenOrderData(prevFrozenOrderData, ref playerVeh, ref scoring, ref playerRules, ref rules, ref extended, ref distToSC);
       prevFrozenOrderData = fod;
 
       var driverToFollow = fod.DriverToFollow;
@@ -1627,8 +1627,8 @@ namespace rF2SMMonitor
         && fod.SafetyCarSpeed > 0.0)
         driverToFollow = "Safety Car";
 
-      this.sbFrozenOrderInfo = new StringBuilder();
-      this.sbFrozenOrderInfo.Append(
+      sbFrozenOrderInfo = new StringBuilder();
+      sbFrozenOrderInfo.Append(
         $"Frozen Order Phase: {fod.Phase}\n"
         + $"Frozen Order Action: {fod.Action}\n"
         + $"Assigned Position: {fod.AssignedPosition}\n"
@@ -1641,7 +1641,7 @@ namespace rF2SMMonitor
         );
 
       var distToSCOnline = -1.0;
-      var fodOnline = this.GetFrozenOrderOnlineData(prevFrozenOrderDataOnline, ref playerVeh, ref scoring, ref extended, ref distToSCOnline);
+      var fodOnline = GetFrozenOrderOnlineData(prevFrozenOrderDataOnline, ref playerVeh, ref scoring, ref extended, ref distToSCOnline);
       prevFrozenOrderDataOnline = fodOnline;
       if (fodOnline != null)
       {
@@ -1651,8 +1651,8 @@ namespace rF2SMMonitor
           && fodOnline.SafetyCarSpeed > 0.0)
           driverToFollowOnline = "Safety Car";
 
-        this.sbFrozenOrderOnlineInfo = new StringBuilder();
-        this.sbFrozenOrderOnlineInfo.Append(
+        sbFrozenOrderOnlineInfo = new StringBuilder();
+        sbFrozenOrderOnlineInfo.Append(
           $"Frozen Order Phase: {fodOnline.Phase}\n"
           + $"Frozen Order Action: {fodOnline.Action}\n"
           + $"Assigned Position: {fodOnline.AssignedPosition}\n"
@@ -1665,17 +1665,17 @@ namespace rF2SMMonitor
           );
       }
       else
-        this.sbFrozenOrderOnlineInfo.Clear();
+        sbFrozenOrderOnlineInfo.Clear();
 
       if (g != null)
       {
         float rulesY = 3.0f;
         float rulesX = 1600.0f;
-        g.DrawString(this.sbRulesChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, rulesX, rulesY);
-        g.DrawString(this.sbRulesLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, rulesX + 30.0f, rulesY);
-        g.DrawString(this.sbRulesValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, rulesX + 200.0f, rulesY);
-        g.DrawString(this.sbFrozenOrderInfo.ToString(), SystemFonts.DefaultFont, Brushes.DarkCyan, rulesX - 100.0f, rulesY + 450);
-        g.DrawString(this.sbFrozenOrderOnlineInfo.ToString(), SystemFonts.DefaultFont, Brushes.Blue, rulesX + 100.0f, rulesY + 450);
+        g.DrawString(sbRulesChanged.ToString(), SystemFonts.DefaultFont, Brushes.Orange, rulesX, rulesY);
+        g.DrawString(sbRulesLabel.ToString(), SystemFonts.DefaultFont, Brushes.Green, rulesX + 30.0f, rulesY);
+        g.DrawString(sbRulesValues.ToString(), SystemFonts.DefaultFont, Brushes.Purple, rulesX + 200.0f, rulesY);
+        g.DrawString(sbFrozenOrderInfo.ToString(), SystemFonts.DefaultFont, Brushes.DarkCyan, rulesX - 100.0f, rulesY + 450);
+        g.DrawString(sbFrozenOrderOnlineInfo.ToString(), SystemFonts.DefaultFont, Brushes.Blue, rulesX + 100.0f, rulesY + 450);
       }
     }
 
@@ -1688,7 +1688,7 @@ namespace rF2SMMonitor
       if (scoring.mScoringInfo.mGamePhase != (int)rF2GamePhase.Formation
         && scoring.mScoringInfo.mGamePhase != (int)rF2GamePhase.FullCourseYellow)
       {
-        this.numFODetectPhaseAttempts = 0;
+        numFODetectPhaseAttempts = 0;
         return fod;
       }
 
@@ -1701,15 +1701,15 @@ namespace rF2SMMonitor
         if (prevFrozenOrderData == null || prevFrozenOrderData.Phase == FrozenOrderPhase.None)
         {
           // Don't bother checking updated ticks, this showld allow catching multiple SC car phases.
-          var phase = TransitionTracker.GetStringFromBytes(extended.mLSIPhaseMessage);
+          var phase = GetStringFromBytes(extended.mLSIPhaseMessage);
 
           if (scoring.mScoringInfo.mGamePhase == (int)rF2GamePhase.Formation
             && string.IsNullOrWhiteSpace(phase))
           {
-            if (this.numFODetectPhaseAttempts > 0)
+            if (numFODetectPhaseAttempts > 0)
               fod.Phase = FrozenOrderPhase.FormationStanding;
 
-            ++this.numFODetectPhaseAttempts;
+            ++numFODetectPhaseAttempts;
           }
           else if (!string.IsNullOrWhiteSpace(phase)
             && phase == "Formation Lap")
@@ -1718,7 +1718,7 @@ namespace rF2SMMonitor
               + (vehicle.mLocalVel.y * vehicle.mLocalVel.y)
               + (vehicle.mLocalVel.z * vehicle.mLocalVel.z));
 
-            fod.Phase = this.GetSector(vehicle.mSector) == 3 && speed > 10.0 ? FrozenOrderPhase.FastRolling : FrozenOrderPhase.Rolling;
+            fod.Phase = GetSector(vehicle.mSector) == 3 && speed > 10.0 ? FrozenOrderPhase.FastRolling : FrozenOrderPhase.Rolling;
           }
           else if (!string.IsNullOrWhiteSpace(phase)
             && (phase == "Full-Course Yellow" || phase == "One Lap To Go"))
@@ -1748,7 +1748,7 @@ namespace rF2SMMonitor
             if (veh.mPlace == 1)
             {
               leaderLapDistAtFOPhaseStart = veh.mLapDist;
-              leaderSectorAtFOPhaseStart = this.GetSector(veh.mSector);
+              leaderSectorAtFOPhaseStart = GetSector(veh.mSector);
               break;
             }
           }
@@ -1767,7 +1767,7 @@ namespace rF2SMMonitor
           else
           {
             // Formation / Standing and Fast Rolling have no Safety Car.
-            fod.Phase = rules.mTrackRules.mStage == rF2TrackRulesStage.FormationInit && this.GetSector(vehicle.mSector) == 3
+            fod.Phase = rules.mTrackRules.mStage == rF2TrackRulesStage.FormationInit && GetSector(vehicle.mSector) == 3
               ? FrozenOrderPhase.FastRolling  // Fast rolling never goes into FormationUpdate and usually starts in S3.
               : FrozenOrderPhase.FormationStanding;
           }
@@ -1835,7 +1835,7 @@ namespace rF2SMMonitor
           }
         }
 
-        var playerDist = this.GetDistanceCompleteded(ref scoring, ref vehicle);
+        var playerDist = GetDistanceCompleteded(ref scoring, ref vehicle);
         var toFollowDist = -1.0;
 
         if (!followSC)
@@ -1846,9 +1846,9 @@ namespace rF2SMMonitor
             var v = scoring.mVehicles[i];
             if (v.mID == vehToFollowId)
             {
-              fod.DriverToFollow = TransitionTracker.GetStringFromBytes(v.mDriverName);
+              fod.DriverToFollow = GetStringFromBytes(v.mDriverName);
 
-              toFollowDist = this.GetDistanceCompleteded(ref scoring, ref v);
+              toFollowDist = GetDistanceCompleteded(ref scoring, ref v);
               break;
             }
           }
@@ -1871,7 +1871,7 @@ namespace rF2SMMonitor
             var veh = scoring.mVehicles[i];
             if (veh.mPlace == (vehicle.mPlace == 1 ? 2 : 1))
             {
-              neighborDist = this.GetDistanceCompleteded(ref scoring, ref veh);
+              neighborDist = GetDistanceCompleteded(ref scoring, ref veh);
               break;
             }
           }
@@ -1915,7 +1915,7 @@ namespace rF2SMMonitor
       if (scoring.mScoringInfo.mGamePhase != (int)rF2GamePhase.Formation
         && scoring.mScoringInfo.mGamePhase != (int)rF2GamePhase.FullCourseYellow)
       {
-        this.numFODetectPhaseAttempts = 0;
+        numFODetectPhaseAttempts = 0;
         return fod;
       }
 
@@ -1934,15 +1934,15 @@ namespace rF2SMMonitor
       if (fod.Phase == FrozenOrderPhase.None)
       {
         // Don't bother checking updated ticks, this showld allow catching multiple SC car phases.
-        var phase = TransitionTracker.GetStringFromBytes(extended.mLSIPhaseMessage);
+        var phase = GetStringFromBytes(extended.mLSIPhaseMessage);
 
         if (scoring.mScoringInfo.mGamePhase == (int)rF2GamePhase.Formation
           && string.IsNullOrWhiteSpace(phase))
         {
-          if (this.numFODetectPhaseAttempts > 0)
+          if (numFODetectPhaseAttempts > 0)
             fod.Phase = FrozenOrderPhase.FormationStanding;
 
-          ++this.numFODetectPhaseAttempts;
+          ++numFODetectPhaseAttempts;
         }
         else if (!string.IsNullOrWhiteSpace(phase)
           && phase == "Formation Lap")
@@ -1951,7 +1951,7 @@ namespace rF2SMMonitor
             + (vehicle.mLocalVel.y * vehicle.mLocalVel.y)
             + (vehicle.mLocalVel.z * vehicle.mLocalVel.z));
 
-          fod.Phase = this.GetSector(vehicle.mSector) == 3 && speed > 10.0 ? FrozenOrderPhase.FastRolling : FrozenOrderPhase.Rolling;
+          fod.Phase = GetSector(vehicle.mSector) == 3 && speed > 10.0 ? FrozenOrderPhase.FastRolling : FrozenOrderPhase.Rolling;
         }
         else if (!string.IsNullOrWhiteSpace(phase)
           && (phase == "Full-Course Yellow" || phase == "One Lap To Go"))
@@ -1965,11 +1965,11 @@ namespace rF2SMMonitor
 
       // NOTE: for formation/standing capture order once.   For other phases, rely on LSI text.
       if ((fod.Phase == FrozenOrderPhase.FastRolling || fod.Phase == FrozenOrderPhase.Rolling || fod.Phase == FrozenOrderPhase.FullCourseYellow)
-        && this.ticksLSIOrderInstructionMessageUpdated != extended.mTicksLSIOrderInstructionMessageUpdated)
+        && ticksLSIOrderInstructionMessageUpdated != extended.mTicksLSIOrderInstructionMessageUpdated)
       {
-        this.ticksLSIOrderInstructionMessageUpdated = extended.mTicksLSIOrderInstructionMessageUpdated;
+        ticksLSIOrderInstructionMessageUpdated = extended.mTicksLSIOrderInstructionMessageUpdated;
 
-        var orderInstruction = TransitionTracker.GetStringFromBytes(extended.mLSIOrderInstructionMessage);
+        var orderInstruction = GetStringFromBytes(extended.mLSIOrderInstructionMessage);
         if (!string.IsNullOrWhiteSpace(orderInstruction))
         {
           var followPrefix = @"Please Follow ";
@@ -2042,7 +2042,7 @@ namespace rF2SMMonitor
                 for (int i = 0; i < scoring.mScoringInfo.mNumVehicles; ++i)
                 {
                   var veh = scoring.mVehicles[i];
-                  var driver = TransitionTracker.GetStringFromBytes(veh.mDriverName);
+                  var driver = GetStringFromBytes(veh.mDriverName);
                   if (driver == driverName)
                   {
                     if (column == FrozenOrderColumn.None)

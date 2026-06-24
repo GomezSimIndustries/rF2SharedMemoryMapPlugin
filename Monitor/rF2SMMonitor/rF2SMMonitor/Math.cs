@@ -147,10 +147,10 @@ namespace rF2SMMonitor
 
     internal Quaternion(Quaternion q)
     {
-      this.w = q.w;
-      this.x = q.x;
-      this.y = q.y;
-      this.z = q.z;
+      w = q.w;
+      x = q.x;
+      y = q.y;
+      z = q.z;
     }
 
     // Convert this quaternion to a matrix

@@ -35,8 +35,8 @@ namespace rF2SMMonitor
     bool skipUnchanged = false;
     public MappedBuffer(string buffName, bool partial, bool skipUnchanged)
     {
-      this.BUFFER_SIZE_BYTES = Marshal.SizeOf(typeof(MappedBufferT));
-      this.BUFFER_NAME = buffName;
+      BUFFER_SIZE_BYTES = Marshal.SizeOf(typeof(MappedBufferT));
+      BUFFER_NAME = buffName;
       this.partial = partial;
       this.skipUnchanged = skipUnchanged;
     }
@@ -44,27 +44,27 @@ namespace rF2SMMonitor
     // Write buffer ctor.
     public MappedBuffer(string buffName)
     {
-      this.BUFFER_SIZE_BYTES = Marshal.SizeOf(typeof(MappedBufferT));
-      this.BUFFER_NAME = buffName;
+      BUFFER_SIZE_BYTES = Marshal.SizeOf(typeof(MappedBufferT));
+      BUFFER_NAME = buffName;
     }
 
     public void Connect()
     {
-      this.memoryMappedFile = MemoryMappedFile.OpenExisting(this.BUFFER_NAME);
+      memoryMappedFile = MemoryMappedFile.OpenExisting(BUFFER_NAME);
 
       // NOTE: Make sure that BUFFER_SIZE matches the structure size in the plugin (debug mode prints that).
-      this.fullSizeBuffer = new byte[this.BUFFER_SIZE_BYTES];
+      fullSizeBuffer = new byte[BUFFER_SIZE_BYTES];
     }
 
     public void Disconnect()
     {
-      if (this.memoryMappedFile != null)
-        this.memoryMappedFile.Dispose();
+      if (memoryMappedFile != null)
+        memoryMappedFile.Dispose();
 
-      this.memoryMappedFile = null;
-      this.fullSizeBuffer = null;
+      memoryMappedFile = null;
+      fullSizeBuffer = null;
 
-      this.ClearStats();
+      ClearStats();
     }
 
     // Read success statistics.
@@ -83,27 +83,27 @@ namespace rF2SMMonitor
 
     public string GetStats()
     {
-      return string.Format("R1: {0}    R2: {1}    R3: {2}    F: {3}    ST: {4}    MR: {5}    SK:{6}    S:{7}", this.numReadRetriesPreCheck, this.numReadRetries, this.numReadRetriesOnCheck, this.numReadFailures, this.numStuckFrames, this.maxRetries, this.numSkippedNoChange, this.numReadsSucceeded);
+      return string.Format("R1: {0}    R2: {1}    R3: {2}    F: {3}    ST: {4}    MR: {5}    SK:{6}    S:{7}", numReadRetriesPreCheck, numReadRetries, numReadRetriesOnCheck, numReadFailures, numStuckFrames, maxRetries, numSkippedNoChange, numReadsSucceeded);
     }
 
     public void ClearStats()
     {
-      this.numReadRetriesPreCheck = 0;
-      this.numReadRetries = 0;
-      this.numReadRetriesOnCheck = 0;
-      this.numReadFailures = 0;
-      this.numStuckFrames = 0;
-      this.numReadsSucceeded = 0;
-      this.numSkippedNoChange = 0;
-      this.maxRetries = 0;
+      numReadRetriesPreCheck = 0;
+      numReadRetries = 0;
+      numReadRetriesOnCheck = 0;
+      numReadFailures = 0;
+      numStuckFrames = 0;
+      numReadsSucceeded = 0;
+      numSkippedNoChange = 0;
+      maxRetries = 0;
     }
 
     public void GetMappedDataUnsynchronized(ref MappedBufferT mappedData)
     {
-      using (var sharedMemoryStreamView = this.memoryMappedFile.CreateViewStream())
+      using (var sharedMemoryStreamView = memoryMappedFile.CreateViewStream())
       {
         var sharedMemoryStream = new BinaryReader(sharedMemoryStreamView);
-        var sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(this.BUFFER_SIZE_BYTES);
+        var sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(BUFFER_SIZE_BYTES);
 
         var handleBuffer = GCHandle.Alloc(sharedMemoryReadBuffer, GCHandleType.Pinned);
         mappedData = (MappedBufferT)Marshal.PtrToStructure(handleBuffer.AddrOfPinnedObject(), typeof(MappedBufferT));
@@ -142,7 +142,7 @@ namespace rF2SMMonitor
       // * Thread.Sleep(0)/Yield - drawback is CPU being kept busy, but almost minimum latency.  Compared to first option, gives other threads a chance to execute.
       // * Thread.Sleep(N) - relaxed approach, less CPU saturation but adds a bit of latency.
       // there are other options too.  Bearing in mind that minimum sleep on windows is ~16ms, which is around 66FPS, I doubt delay added matters much for Crew Chief at least.
-      using (var sharedMemoryStreamView = this.memoryMappedFile.CreateViewStream())
+      using (var sharedMemoryStreamView = memoryMappedFile.CreateViewStream())
       {
         uint currVersionBegin = 0;
         uint currVersionEnd = 0;
@@ -153,13 +153,13 @@ namespace rF2SMMonitor
         var versionHeaderWithSize = new rF2MappedBufferVersionBlockWithSize();
         var versionHeader = new rF2MappedBufferVersionBlock();
 
-        for (retry = 0; retry < MappedBuffer<MappedBufferT>.NUM_MAX_RETRIEES; ++retry)
+        for (retry = 0; retry < NUM_MAX_RETRIEES; ++retry)
         {
-          var bufferSizeBytes = this.BUFFER_SIZE_BYTES;
+          var bufferSizeBytes = BUFFER_SIZE_BYTES;
           // Read current buffer versions.
-          if (this.partial)
+          if (partial)
           {
-            this.GetHeaderBlock<rF2MappedBufferVersionBlockWithSize>(sharedMemoryStream, this.RF2_BUFFER_VERSION_BLOCK_WITH_SIZE_SIZE_BYTES, ref versionHeaderWithSize);
+            GetHeaderBlock<rF2MappedBufferVersionBlockWithSize>(sharedMemoryStream, RF2_BUFFER_VERSION_BLOCK_WITH_SIZE_SIZE_BYTES, ref versionHeaderWithSize);
             currVersionBegin = versionHeaderWithSize.mVersionUpdateBegin;
             currVersionEnd = versionHeaderWithSize.mVersionUpdateEnd;
 
@@ -167,26 +167,26 @@ namespace rF2SMMonitor
           }
           else
           {
-            this.GetHeaderBlock<rF2MappedBufferVersionBlock>(sharedMemoryStream, this.RF2_BUFFER_VERSION_BLOCK_SIZE_BYTES, ref versionHeader);
+            GetHeaderBlock<rF2MappedBufferVersionBlock>(sharedMemoryStream, RF2_BUFFER_VERSION_BLOCK_SIZE_BYTES, ref versionHeader);
             currVersionBegin = versionHeader.mVersionUpdateBegin;
             currVersionEnd = versionHeader.mVersionUpdateEnd;
           }
 
           // If this is stale "out of sync" situation, that is, we're stuck in, no point in retrying here.
           // Could be a bug in a game, plugin or a game crash.
-          if (currVersionBegin == this.stuckVersionBegin
-            && currVersionEnd == this.stuckVersionEnd)
+          if (currVersionBegin == stuckVersionBegin
+            && currVersionEnd == stuckVersionEnd)
           {
-            ++this.numStuckFrames;
+            ++numStuckFrames;
             return;  // Failed.
           }
 
           // If version is the same as previously successfully read, do nothing.
-          if (this.skipUnchanged
-            && currVersionBegin == this.lastSuccessVersionBegin
-            && currVersionEnd == this.lastSuccessVersionEnd)
+          if (skipUnchanged
+            && currVersionBegin == lastSuccessVersionBegin
+            && currVersionEnd == lastSuccessVersionEnd)
           {
-            ++this.numSkippedNoChange;
+            ++numSkippedNoChange;
             return;
           }
 
@@ -232,37 +232,37 @@ namespace rF2SMMonitor
           // we still will be able to detect this case because now updateBegin version changed, so we
           // know Writer is updating the buffer.
 
-          this.GetHeaderBlock<rF2MappedBufferVersionBlock>(sharedMemoryStream, this.RF2_BUFFER_VERSION_BLOCK_SIZE_BYTES, ref versionHeader);
+          GetHeaderBlock<rF2MappedBufferVersionBlock>(sharedMemoryStream, RF2_BUFFER_VERSION_BLOCK_SIZE_BYTES, ref versionHeader);
 
           if (currVersionBegin != versionHeader.mVersionUpdateBegin
             || currVersionEnd != versionHeader.mVersionUpdateEnd)
           {
             Thread.Sleep(1);
-            ++this.numReadRetriesOnCheck;
+            ++numReadRetriesOnCheck;
             continue;
           }
 
           // Marshal rF2 State buffer
-          this.MarshalDataBuffer(this.partial, sharedMemoryReadBuffer, ref mappedData);
+          MarshalDataBuffer(partial, sharedMemoryReadBuffer, ref mappedData);
 
           // Success.
-          this.maxRetries = Math.Max(this.maxRetries, retry);
-          ++this.numReadsSucceeded;
-          this.stuckVersionBegin = this.stuckVersionEnd = 0;
+          maxRetries = Math.Max(maxRetries, retry);
+          ++numReadsSucceeded;
+          stuckVersionBegin = stuckVersionEnd = 0;
 
           // Save succeessfully read version to avoid re-reading.
-          this.lastSuccessVersionBegin = currVersionBegin;
-          this.lastSuccessVersionEnd = currVersionEnd;
+          lastSuccessVersionBegin = currVersionBegin;
+          lastSuccessVersionEnd = currVersionEnd;
 
           return;
         }
 
         // Failure.  Save the frame version.
-        this.stuckVersionBegin = currVersionBegin;
-        this.stuckVersionEnd = currVersionEnd;
+        stuckVersionBegin = currVersionBegin;
+        stuckVersionEnd = currVersionEnd;
 
-        this.maxRetries = Math.Max(this.maxRetries, retry);
-        ++this.numReadFailures;
+        maxRetries = Math.Max(maxRetries, retry);
+        ++numReadFailures;
       }
     }
 
@@ -272,8 +272,8 @@ namespace rF2SMMonitor
       {
         // For marshalling to succeed we need to copy partial buffer into full size buffer.  While it is a bit of a waste, it still gives us gain
         // of shorter time window for version collisions while reading game data.
-        Array.Copy(sharedMemoryReadBuffer, this.fullSizeBuffer, sharedMemoryReadBuffer.Length);
-        var handlePartialBuffer = GCHandle.Alloc(this.fullSizeBuffer, GCHandleType.Pinned);
+        Array.Copy(sharedMemoryReadBuffer, fullSizeBuffer, sharedMemoryReadBuffer.Length);
+        var handlePartialBuffer = GCHandle.Alloc(fullSizeBuffer, GCHandleType.Pinned);
         mappedData = (MappedBufferT)Marshal.PtrToStructure(handlePartialBuffer.AddrOfPinnedObject(), typeof(MappedBufferT));
         handlePartialBuffer.Free();
       }
@@ -288,7 +288,7 @@ namespace rF2SMMonitor
     // Write buffer stuff
     public void PutMappedData(ref MappedBufferT mappedData)
     {
-      using (var sharedMemoryStreamView = this.memoryMappedFile.CreateViewStream())
+      using (var sharedMemoryStreamView = memoryMappedFile.CreateViewStream())
       {
         var sharedMemoryStream = new BinaryWriter(sharedMemoryStreamView);
 

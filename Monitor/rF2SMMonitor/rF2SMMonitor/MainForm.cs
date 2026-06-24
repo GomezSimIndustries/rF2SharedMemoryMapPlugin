@@ -34,20 +34,20 @@ namespace rF2SMMonitor
     bool connected = false;
 
     // Read buffers:
-    MappedBuffer<rF2Telemetry> telemetryBuffer = new MappedBuffer<rF2Telemetry>(rFactor2Constants.MM_TELEMETRY_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
-    MappedBuffer<rF2Scoring> scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
-    MappedBuffer<rF2Rules> rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
-    MappedBuffer<rF2ForceFeedback> forceFeedbackBuffer = new MappedBuffer<rF2ForceFeedback>(rFactor2Constants.MM_FORCE_FEEDBACK_FILE_NAME, false /*partial*/, false /*skipUnchanged*/);
-    MappedBuffer<rF2Graphics> graphicsBuffer = new MappedBuffer<rF2Graphics>(rFactor2Constants.MM_GRAPHICS_FILE_NAME, false /*partial*/, false /*skipUnchanged*/);
-    MappedBuffer<rF2PitInfo> pitInfoBuffer = new MappedBuffer<rF2PitInfo>(rFactor2Constants.MM_PITINFO_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
-    MappedBuffer<rF2Weather> weatherBuffer = new MappedBuffer<rF2Weather>(rFactor2Constants.MM_WEATHER_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
-    MappedBuffer<rF2Extended> extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2Telemetry> telemetryBuffer = new MappedBuffer<rF2Telemetry>(MM_TELEMETRY_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2Scoring> scoringBuffer = new MappedBuffer<rF2Scoring>(MM_SCORING_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2Rules> rulesBuffer = new MappedBuffer<rF2Rules>(MM_RULES_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2ForceFeedback> forceFeedbackBuffer = new MappedBuffer<rF2ForceFeedback>(MM_FORCE_FEEDBACK_FILE_NAME, false /*partial*/, false /*skipUnchanged*/);
+    MappedBuffer<rF2Graphics> graphicsBuffer = new MappedBuffer<rF2Graphics>(MM_GRAPHICS_FILE_NAME, false /*partial*/, false /*skipUnchanged*/);
+    MappedBuffer<rF2PitInfo> pitInfoBuffer = new MappedBuffer<rF2PitInfo>(MM_PITINFO_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2Weather> weatherBuffer = new MappedBuffer<rF2Weather>(MM_WEATHER_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+    MappedBuffer<rF2Extended> extendedBuffer = new MappedBuffer<rF2Extended>(MM_EXTENDED_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
 
     // Write buffers:
-    MappedBuffer<rF2HWControl> hwControlBuffer = new MappedBuffer<rF2HWControl>(rFactor2Constants.MM_HWCONTROL_FILE_NAME);
-    MappedBuffer<rF2WeatherControl> weatherControlBuffer = new MappedBuffer<rF2WeatherControl>(rFactor2Constants.MM_WEATHER_CONTROL_FILE_NAME);
-    MappedBuffer<rF2RulesControl> rulesControlBuffer = new MappedBuffer<rF2RulesControl>(rFactor2Constants.MM_RULES_CONTROL_FILE_NAME);
-    MappedBuffer<rF2PluginControl> pluginControlBuffer = new MappedBuffer<rF2PluginControl>(rFactor2Constants.MM_PLUGIN_CONTROL_FILE_NAME);
+    MappedBuffer<rF2HWControl> hwControlBuffer = new MappedBuffer<rF2HWControl>(MM_HWCONTROL_FILE_NAME);
+    MappedBuffer<rF2WeatherControl> weatherControlBuffer = new MappedBuffer<rF2WeatherControl>(MM_WEATHER_CONTROL_FILE_NAME);
+    MappedBuffer<rF2RulesControl> rulesControlBuffer = new MappedBuffer<rF2RulesControl>(MM_RULES_CONTROL_FILE_NAME);
+    MappedBuffer<rF2PluginControl> pluginControlBuffer = new MappedBuffer<rF2PluginControl>(MM_PLUGIN_CONTROL_FILE_NAME);
 
     // Marshalled views:
     rF2Telemetry telemetry;
@@ -105,104 +105,104 @@ namespace rF2SMMonitor
 
     public MainForm()
     {
-      this.InitializeComponent();
+      InitializeComponent();
 
-      this.DoubleBuffered = true;
-      this.StartPosition = FormStartPosition.Manual;
-      this.Location = new Point(0, 0);
+      DoubleBuffered = true;
+      StartPosition = FormStartPosition.Manual;
+      Location = new Point(0, 0);
 
-      this.EnableControls(false);
-      this.scaleTextBox.KeyDown += this.TextBox_KeyDown;
-      this.scaleTextBox.LostFocus += this.ScaleTextBox_LostFocus;
-      this.xOffsetTextBox.KeyDown += this.TextBox_KeyDown;
-      this.xOffsetTextBox.LostFocus += this.XOffsetTextBox_LostFocus;
-      this.yOffsetTextBox.KeyDown += this.TextBox_KeyDown;
-      this.yOffsetTextBox.LostFocus += this.YOffsetTextBox_LostFocus;
-      this.focusVehTextBox.KeyDown += this.TextBox_KeyDown;
-      this.focusVehTextBox.LostFocus += this.FocusVehTextBox_LostFocus;
-      this.setAsOriginCheckBox.CheckedChanged += this.SetAsOriginCheckBox_CheckedChanged;
-      this.rotateAroundCheckBox.CheckedChanged += this.RotateAroundCheckBox_CheckedChanged;
-      this.logPhaseAndStateCheckBox.CheckedChanged += this.CheckBoxLogPhaseAndState_CheckedChanged;
-      this.logDamageCheckBox.CheckedChanged += this.CheckBoxLogDamage_CheckedChanged;
-      this.logTimingCheckBox.CheckedChanged += this.CheckBoxLogTiming_CheckedChanged;
-      this.logRulesCheckBox.CheckedChanged += this.CheckBoxLogRules_CheckedChanged;
-      this.lightModeCheckBox.CheckedChanged += this.CheckBoxLightMode_CheckedChanged;
-      this.enablePitInputsCheckBox.CheckedChanged += this.CheckBoxEnablePitInputs_CheckedChanged;
-      this.MouseWheel += this.MainForm_MouseWheel;
+      EnableControls(false);
+      scaleTextBox.KeyDown += TextBox_KeyDown;
+      scaleTextBox.LostFocus += ScaleTextBox_LostFocus;
+      xOffsetTextBox.KeyDown += TextBox_KeyDown;
+      xOffsetTextBox.LostFocus += XOffsetTextBox_LostFocus;
+      yOffsetTextBox.KeyDown += TextBox_KeyDown;
+      yOffsetTextBox.LostFocus += YOffsetTextBox_LostFocus;
+      focusVehTextBox.KeyDown += TextBox_KeyDown;
+      focusVehTextBox.LostFocus += FocusVehTextBox_LostFocus;
+      setAsOriginCheckBox.CheckedChanged += SetAsOriginCheckBox_CheckedChanged;
+      rotateAroundCheckBox.CheckedChanged += RotateAroundCheckBox_CheckedChanged;
+      logPhaseAndStateCheckBox.CheckedChanged += CheckBoxLogPhaseAndState_CheckedChanged;
+      logDamageCheckBox.CheckedChanged += CheckBoxLogDamage_CheckedChanged;
+      logTimingCheckBox.CheckedChanged += CheckBoxLogTiming_CheckedChanged;
+      logRulesCheckBox.CheckedChanged += CheckBoxLogRules_CheckedChanged;
+      lightModeCheckBox.CheckedChanged += CheckBoxLightMode_CheckedChanged;
+      enablePitInputsCheckBox.CheckedChanged += CheckBoxEnablePitInputs_CheckedChanged;
+      MouseWheel += MainForm_MouseWheel;
 
-      this.rainIntensityTextBox.LostFocus += this.RainIntensityTextBox_LostFocus;
-      this.rainIntensityTextBox.Text = "0.0";
-      this.applyRainIntensityButton.Click += this.ApplyRainIntensityButton_Click;
+      rainIntensityTextBox.LostFocus += RainIntensityTextBox_LostFocus;
+      rainIntensityTextBox.Text = "0.0";
+      applyRainIntensityButton.Click += ApplyRainIntensityButton_Click;
 
-      this.LoadConfig();
-      this.connectTimer.Interval = MainForm.CONNECTION_RETRY_INTERVAL_MS;
-      this.connectTimer.Tick += this.ConnectTimer_Tick;
-      this.disconnectTimer.Interval = MainForm.DISCONNECTED_CHECK_INTERVAL_MS;
-      this.disconnectTimer.Tick += this.DisconnectTimer_Tick;
-      this.connectTimer.Start();
-      this.disconnectTimer.Start();
+      LoadConfig();
+      connectTimer.Interval = CONNECTION_RETRY_INTERVAL_MS;
+      connectTimer.Tick += ConnectTimer_Tick;
+      disconnectTimer.Interval = DISCONNECTED_CHECK_INTERVAL_MS;
+      disconnectTimer.Tick += DisconnectTimer_Tick;
+      connectTimer.Start();
+      disconnectTimer.Start();
 
-      this.view.BorderStyle = BorderStyle.Fixed3D;
-      this.view.Paint += this.View_Paint;
-      this.MouseClick += this.MainForm_MouseClick;
-      this.view.MouseClick += this.MainForm_MouseClick;
+      view.BorderStyle = BorderStyle.Fixed3D;
+      view.Paint += View_Paint;
+      MouseClick += MainForm_MouseClick;
+      view.MouseClick += MainForm_MouseClick;
 
-      Application.Idle += this.HandleApplicationIdle;
+      Application.Idle += HandleApplicationIdle;
     }
 
     private void ApplyRainIntensityButton_Click(object sender, EventArgs e)
     {
-      if (!this.connected
-        || this.extended.mWeatherControlInputEnabled == 0)
+      if (!connected
+        || extended.mWeatherControlInputEnabled == 0)
         return;
 
-      this.weatherControl.mVersionUpdateBegin = this.weatherControl.mVersionUpdateEnd = this.weatherControl.mVersionUpdateBegin + 1;
+      weatherControl.mVersionUpdateBegin = weatherControl.mVersionUpdateEnd = weatherControl.mVersionUpdateBegin + 1;
 
       // First, copy current state into control buffer.
       // This is not a deep copy. Values in weather buffer wwill change.  If that is not desired, deep copy needs to be performed.
-      this.weatherControl.mWeatherInfo = this.weather.mWeatherInfo;
+      weatherControl.mWeatherInfo = weather.mWeatherInfo;
 
-      this.weatherControl.mWeatherInfo.mET += 5.0;  // Apply in 5 seconds.
+      weatherControl.mWeatherInfo.mET += 5.0;  // Apply in 5 seconds.
       // Apply requested rain intensity.
-      this.weatherControl.mWeatherInfo.mRaining[4] = this.rainIntensityRequested;
+      weatherControl.mWeatherInfo.mRaining[4] = rainIntensityRequested;
 
-      this.weatherControlBuffer.PutMappedData(ref this.weatherControl);
-      this.applyRainIntensityButton.Enabled = false;
+      weatherControlBuffer.PutMappedData(ref weatherControl);
+      applyRainIntensityButton.Enabled = false;
     }
 
     private void CheckBoxEnablePitInputs_CheckedChanged(object sender, EventArgs e)
     {
-      this.enablePitInputs = this.enablePitInputsCheckBox.Checked;
-      this.config.Write("enablePitInputs", this.enablePitInputs ? "1" : "0");
+      enablePitInputs = enablePitInputsCheckBox.Checked;
+      config.Write("enablePitInputs", enablePitInputs ? "1" : "0");
     }
 
     [DllImport("user32.dll")]
-    static extern short GetAsyncKeyState(System.Windows.Forms.Keys vKey);
+    static extern short GetAsyncKeyState(Keys vKey);
 
     private DateTime nextKeyHandlingTime = DateTime.MinValue;
     private void ProcessKeys()
     {
-      if (!this.connected
-        || !this.enablePitInputs
-        || this.extended.mHWControlInputEnabled == 0)
+      if (!connected
+        || !enablePitInputs
+        || extended.mHWControlInputEnabled == 0)
         return;
 
       var now = DateTime.Now;
-      if (now < this.nextKeyHandlingTime)
+      if (now < nextKeyHandlingTime)
         return;
 
-      this.nextKeyHandlingTime = now + TimeSpan.FromMilliseconds(100);
+      nextKeyHandlingTime = now + TimeSpan.FromMilliseconds(100);
 
       byte[] commandStr = null;
       var fRetVal = 1.0;
 
-      if (MainForm.GetAsyncKeyState(Keys.U) != 0)
+      if (GetAsyncKeyState(Keys.U) != 0)
         commandStr = Encoding.Default.GetBytes("PitMenuIncrementValue");
-      else if (MainForm.GetAsyncKeyState(Keys.Y) != 0)
+      else if (GetAsyncKeyState(Keys.Y) != 0)
         commandStr = Encoding.Default.GetBytes("PitMenuDecrementValue");
-      else if (MainForm.GetAsyncKeyState(Keys.P) != 0)
+      else if (GetAsyncKeyState(Keys.P) != 0)
         commandStr = Encoding.Default.GetBytes("PitMenuUp");
-      else if (MainForm.GetAsyncKeyState(Keys.O) != 0)
+      else if (GetAsyncKeyState(Keys.O) != 0)
         commandStr = Encoding.Default.GetBytes("PitMenuDown");
       // rough sample for rule input buffer.
       /*else if (MainForm.GetAsyncKeyState(Keys.T) != 0)
@@ -226,180 +226,180 @@ namespace rF2SMMonitor
         this.rulesControlBuffer.PutMappedData(ref this.rulesControl);
       }*/
 
-      this.SendPitMenuCmd(commandStr, fRetVal);
+      SendPitMenuCmd(commandStr, fRetVal);
     }
 
     private void SendPitMenuCmd(byte[] commandStr, double fRetVal)
     {
       if (commandStr != null)
       {
-        this.hwControl.mVersionUpdateBegin = this.hwControl.mVersionUpdateEnd = this.hwControl.mVersionUpdateBegin + 1;
+        hwControl.mVersionUpdateBegin = hwControl.mVersionUpdateEnd = hwControl.mVersionUpdateBegin + 1;
 
-        this.hwControl.mControlName = new byte[rFactor2Constants.MAX_HWCONTROL_NAME_LEN];
+        hwControl.mControlName = new byte[MAX_HWCONTROL_NAME_LEN];
         for (int i = 0; i < commandStr.Length; ++i)
-          this.hwControl.mControlName[i] = commandStr[i];
+          hwControl.mControlName[i] = commandStr[i];
 
-        this.hwControl.mfRetVal = fRetVal;
+        hwControl.mfRetVal = fRetVal;
 
-        this.hwControlBuffer.PutMappedData(ref this.hwControl);
+        hwControlBuffer.PutMappedData(ref hwControl);
       }
     }
     private void CheckBoxLogRules_CheckedChanged(object sender, EventArgs e)
     {
-      this.logRules = this.logRulesCheckBox.Checked;
-      this.config.Write("logRules", this.logRules ? "1" : "0");
+      logRules = logRulesCheckBox.Checked;
+      config.Write("logRules", logRules ? "1" : "0");
     }
 
     private void CheckBoxLightMode_CheckedChanged(object sender, EventArgs e)
     {
-      this.logLightMode = this.lightModeCheckBox.Checked;
+      logLightMode = lightModeCheckBox.Checked;
 
       // Disable/enable rendering options
-      this.globalGroupBox.Enabled = !this.logLightMode;
-      this.groupBoxFocus.Enabled = !this.logLightMode;
+      globalGroupBox.Enabled = !logLightMode;
+      groupBoxFocus.Enabled = !logLightMode;
 
-      this.config.Write("logLightMode", this.logLightMode ? "1" : "0");
+      config.Write("logLightMode", logLightMode ? "1" : "0");
     }
 
     private void CheckBoxLogDamage_CheckedChanged(object sender, EventArgs e)
     {
-      this.logDamage = this.logDamageCheckBox.Checked;
-      this.config.Write("logDamage", this.logDamage ? "1" : "0");
+      logDamage = logDamageCheckBox.Checked;
+      config.Write("logDamage", logDamage ? "1" : "0");
     }
 
     private void CheckBoxLogTiming_CheckedChanged(object sender, EventArgs e)
     {
-      this.logTiming = this.logTimingCheckBox.Checked;
-      this.config.Write("logTiming", this.logTiming ? "1" : "0");
+      logTiming = logTimingCheckBox.Checked;
+      config.Write("logTiming", logTiming ? "1" : "0");
     }
 
     private void CheckBoxLogPhaseAndState_CheckedChanged(object sender, EventArgs e)
     {
-      this.logPhaseAndState = this.logPhaseAndStateCheckBox.Checked;
-      this.config.Write("logPhaseAndState", this.logPhaseAndState ? "1" : "0");
+      logPhaseAndState = logPhaseAndStateCheckBox.Checked;
+      config.Write("logPhaseAndState", logPhaseAndState ? "1" : "0");
     }
 
     private void MainForm_MouseClick(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Right)
       {
-        this.delayAccMicroseconds = 0;
-        this.numDelayUpdates = 0;
+        delayAccMicroseconds = 0;
+        numDelayUpdates = 0;
 
-        this.telemetryBuffer.ClearStats();
-        this.scoringBuffer.ClearStats();
-        this.extendedBuffer.ClearStats();
-        this.rulesBuffer.ClearStats();
+        telemetryBuffer.ClearStats();
+        scoringBuffer.ClearStats();
+        extendedBuffer.ClearStats();
+        rulesBuffer.ClearStats();
 
         // No stats for FFB buffer (single value buffer).
 
-        this.maxFFBValue = 0.0;
+        maxFFBValue = 0.0;
       }
     }
 
     private void RainIntensityTextBox_LostFocus(object sender, EventArgs e)
     {
       var result = 0.0;
-      if (double.TryParse(this.rainIntensityTextBox.Text, out result)
+      if (double.TryParse(rainIntensityTextBox.Text, out result)
         && result >= 0.0 && result <= 1.0)
       {
-        if (this.rainIntensityRequested != result)
-          this.applyRainIntensityButton.Enabled = true;
+        if (rainIntensityRequested != result)
+          applyRainIntensityButton.Enabled = true;
 
-        this.rainIntensityRequested = result;
+        rainIntensityRequested = result;
       }
 
-      this.rainIntensityTextBox.Text = this.rainIntensityRequested.ToString("0.0");
+      rainIntensityTextBox.Text = rainIntensityRequested.ToString("0.0");
     }
 
     private void YOffsetTextBox_LostFocus(object sender, EventArgs e)
     {
       float result = 0.0f;
-      if (float.TryParse(this.yOffsetTextBox.Text, out result))
+      if (float.TryParse(yOffsetTextBox.Text, out result))
       {
-        this.yOffset = result;
-        this.config.Write("yOffset", this.yOffset.ToString());
+        yOffset = result;
+        config.Write("yOffset", yOffset.ToString());
       }
       else
-        this.yOffsetTextBox.Text = this.yOffset.ToString();
+        yOffsetTextBox.Text = yOffset.ToString();
     }
 
     private void XOffsetTextBox_LostFocus(object sender, EventArgs e)
     {
       float result = 0.0f;
-      if (float.TryParse(this.xOffsetTextBox.Text, out result))
+      if (float.TryParse(xOffsetTextBox.Text, out result))
       {
-        this.xOffset = result;
-        this.config.Write("xOffset", this.xOffset.ToString());
+        xOffset = result;
+        config.Write("xOffset", xOffset.ToString());
       }
       else
-        this.xOffsetTextBox.Text = this.xOffset.ToString();
+        xOffsetTextBox.Text = xOffset.ToString();
 
     }
 
     private void MainForm_MouseWheel(object sender, MouseEventArgs e)
     {
       float step = 0.5f;
-      if (this.scale < 5.0f)
+      if (scale < 5.0f)
         step = 0.25f;
-      else if (this.scale < 2.0f)
+      else if (scale < 2.0f)
         step = 0.1f;
-      else if (this.scale < 1.0f)
+      else if (scale < 1.0f)
         step = 0.05f;
 
       if (e.Delta > 0)
-        this.scale += step;
+        scale += step;
       else if (e.Delta < 0)
-        this.scale -= step;
+        scale -= step;
 
-      if (this.scale <= 0.0f)
-        this.scale = 0.05f;
+      if (scale <= 0.0f)
+        scale = 0.05f;
 
-      this.config.Write("scale", this.scale.ToString());
-      this.scaleTextBox.Text = this.scale.ToString();
+      config.Write("scale", scale.ToString());
+      scaleTextBox.Text = scale.ToString();
     }
 
     private void RotateAroundCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-      this.rotateAroundVehicle = this.rotateAroundCheckBox.Checked;
-      this.config.Write("rotateAroundVehicle", this.rotateAroundVehicle ? "1" : "0");
+      rotateAroundVehicle = rotateAroundCheckBox.Checked;
+      config.Write("rotateAroundVehicle", rotateAroundVehicle ? "1" : "0");
     }
 
     private void SetAsOriginCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-      this.centerOnVehicle = this.setAsOriginCheckBox.Checked;
-      this.rotateAroundCheckBox.Enabled = this.setAsOriginCheckBox.Checked;
-      this.config.Write("centerOnVehicle", this.centerOnVehicle ? "1" : "0");
+      centerOnVehicle = setAsOriginCheckBox.Checked;
+      rotateAroundCheckBox.Enabled = setAsOriginCheckBox.Checked;
+      config.Write("centerOnVehicle", centerOnVehicle ? "1" : "0");
     }
 
     private void FocusVehTextBox_LostFocus(object sender, EventArgs e)
     {
       int result = 0;
-      if (int.TryParse(this.focusVehTextBox.Text, out result) && result >= 0)
+      if (int.TryParse(focusVehTextBox.Text, out result) && result >= 0)
       {
-        this.focusVehicle = result;
-        this.config.Write("focusVehicle", this.focusVehicle.ToString());
+        focusVehicle = result;
+        config.Write("focusVehicle", focusVehicle.ToString());
       }
       else
-        this.focusVehTextBox.Text = this.focusVehTextBox.ToString();
+        focusVehTextBox.Text = focusVehTextBox.ToString();
     }
 
     private void ScaleTextBox_LostFocus(object sender, EventArgs e)
     {
       float result = 0.0f;
-      if (float.TryParse(this.scaleTextBox.Text, out result))
+      if (float.TryParse(scaleTextBox.Text, out result))
       {
-        this.scale = Math.Max(result, 0.05f);
-        this.config.Write("scale", this.scale.ToString());
+        scale = Math.Max(result, 0.05f);
+        config.Write("scale", scale.ToString());
       }
       else
-        this.scaleTextBox.Text = this.scale.ToString();
+        scaleTextBox.Text = scale.ToString();
     }
 
     private void TextBox_KeyDown(object sender, KeyEventArgs e)
     {
       if (e.KeyCode == Keys.Enter)
-        this.view.Focus();
+        view.Focus();
     }
     protected override void Dispose(bool disposing)
     {
@@ -422,33 +422,33 @@ namespace rF2SMMonitor
 
     void HandleApplicationIdle(object sender, EventArgs e)
     {
-      while (this.IsApplicationIdle())
+      while (IsApplicationIdle())
       {
         try
         {
-          this.MainUpdate();
+          MainUpdate();
 
-          if (base.WindowState == FormWindowState.Minimized)
+          if (WindowState == FormWindowState.Minimized)
           {
             // being lazy lazy lazy.
-            this.tracker.TrackPhase(ref this.scoring, ref this.telemetry, ref this.extended, null, this.logPhaseAndState);
-            this.tracker.TrackDamage(ref this.scoring, ref this.telemetry, ref this.extended, null, this.logDamage);
-            this.tracker.TrackTimings(ref this.scoring, ref this.telemetry, ref this.rules, ref this.extended, null, this.logTiming);
-            this.tracker.TrackRules(ref this.scoring, ref this.telemetry, ref this.rules, ref this.extended, null, this.logRules);
+            tracker.TrackPhase(ref scoring, ref telemetry, ref extended, null, logPhaseAndState);
+            tracker.TrackDamage(ref scoring, ref telemetry, ref extended, null, logDamage);
+            tracker.TrackTimings(ref scoring, ref telemetry, ref rules, ref extended, null, logTiming);
+            tracker.TrackRules(ref scoring, ref telemetry, ref rules, ref extended, null, logRules);
           }
           else
           {
-            this.MainRender();
+            MainRender();
           }
 
-          this.ProcessKeys();
+          ProcessKeys();
 
-          if (this.logLightMode)
+          if (logLightMode)
             Thread.Sleep(LIGHT_MODE_REFRESH_MS);
         }
         catch (Exception)
         {
-          this.Disconnect();
+          Disconnect();
         }
       }
     }
@@ -458,12 +458,12 @@ namespace rF2SMMonitor
     float avgDelayMicroseconds = 0.0f;
     void MainUpdate()
     {
-      if (!this.connected)
+      if (!connected)
         return;
 
       try
       {
-        var watch = System.Diagnostics.Stopwatch.StartNew();
+        var watch = Stopwatch.StartNew();
 
         extendedBuffer.GetMappedData(ref extended);
         scoringBuffer.GetMappedData(ref scoring);
@@ -475,27 +475,27 @@ namespace rF2SMMonitor
         weatherBuffer.GetMappedData(ref weather);
 
         watch.Stop();
-        var microseconds = watch.ElapsedTicks * 1000000 / System.Diagnostics.Stopwatch.Frequency;
-        this.delayAccMicroseconds += microseconds;
-        ++this.numDelayUpdates;
+        var microseconds = watch.ElapsedTicks * 1000000 / Stopwatch.Frequency;
+        delayAccMicroseconds += microseconds;
+        ++numDelayUpdates;
 
-        if (this.numDelayUpdates == 0)
+        if (numDelayUpdates == 0)
         {
-          this.numDelayUpdates = 1;
-          this.delayAccMicroseconds = microseconds;
+          numDelayUpdates = 1;
+          delayAccMicroseconds = microseconds;
         }
 
-        this.avgDelayMicroseconds = (float)this.delayAccMicroseconds / this.numDelayUpdates;
+        avgDelayMicroseconds = (float)delayAccMicroseconds / numDelayUpdates;
       }
       catch (Exception)
       {
-        this.Disconnect();
+        Disconnect();
       }
     }
 
     void MainRender()
     {
-      this.view.Refresh();
+      view.Refresh();
     }
 
     int framesAvg = 20;
@@ -504,16 +504,16 @@ namespace rF2SMMonitor
     Stopwatch fpsStopWatch = new Stopwatch();
     private void UpdateFPS()
     {
-      if (this.frame > this.framesAvg)
+      if (frame > framesAvg)
       {
-        this.fpsStopWatch.Stop();
-        var tsSinceLastRender = this.fpsStopWatch.Elapsed;
-        this.fps = tsSinceLastRender.Milliseconds > 0 ? (1000 * this.framesAvg) / tsSinceLastRender.Milliseconds : 0;
-        this.fpsStopWatch.Restart();
-        this.frame = 0;
+        fpsStopWatch.Stop();
+        var tsSinceLastRender = fpsStopWatch.Elapsed;
+        fps = tsSinceLastRender.Milliseconds > 0 ? (1000 * framesAvg) / tsSinceLastRender.Milliseconds : 0;
+        fpsStopWatch.Restart();
+        frame = 0;
       }
       else
-        ++this.frame;
+        ++frame;
     }
 
     private static string GetStringFromBytes(byte[] bytes)
@@ -537,24 +537,24 @@ namespace rF2SMMonitor
     {
       var g = e.Graphics;
 
-      this.tracker.TrackPhase(ref this.scoring, ref this.telemetry, ref this.extended, g, this.logPhaseAndState);
-      this.tracker.TrackDamage(ref this.scoring, ref this.telemetry, ref this.extended, g, this.logDamage);
-      this.tracker.TrackTimings(ref this.scoring, ref this.telemetry, ref this.rules, ref this.extended, g, this.logTiming);
-      this.tracker.TrackRules(ref this.scoring, ref this.telemetry, ref this.rules, ref this.extended, g, this.logRules);
+      tracker.TrackPhase(ref scoring, ref telemetry, ref extended, g, logPhaseAndState);
+      tracker.TrackDamage(ref scoring, ref telemetry, ref extended, g, logDamage);
+      tracker.TrackTimings(ref scoring, ref telemetry, ref rules, ref extended, g, logTiming);
+      tracker.TrackRules(ref scoring, ref telemetry, ref rules, ref extended, g, logRules);
 
-      this.UpdateFPS();
+      UpdateFPS();
 
-      if (!this.connected)
+      if (!connected)
       {
-        var brush = new SolidBrush(System.Drawing.Color.Black);
+        var brush = new SolidBrush(Color.Black);
         g.DrawString("Not connected.", SystemFonts.DefaultFont, brush, 3.0f, 3.0f);
 
-        if (this.logLightMode)
+        if (logLightMode)
           return;
       }
       else
       {
-        var brush = new SolidBrush(System.Drawing.Color.Green);
+        var brush = new SolidBrush(Color.Green);
 
         var currX = 3.0f;
         var currY = 3.0f;
@@ -562,20 +562,20 @@ namespace rF2SMMonitor
         var gameStateText = new StringBuilder();
 
         // Capture FFB stats:
-        this.maxFFBValue = Math.Max(Math.Abs(this.forceFeedback.mForceValue), this.maxFFBValue);
+        maxFFBValue = Math.Max(Math.Abs(forceFeedback.mForceValue), maxFFBValue);
 
         gameStateText.Append(
-          $"Plugin Version:    Expected: 3.7.15.0 64bit   Actual: {MainForm.GetStringFromBytes(this.extended.mVersion)}"
-          + $"{(this.extended.is64bit == 1 ? " 64bit" : " 32bit")}"
-          + $"{(this.extended.mSCRPluginEnabled == 1 ? "    SCR Plugin enabled" : "")}"
-          + $"{(this.extended.mDirectMemoryAccessEnabled == 1 ? "    DMA enabled" : "")}"
-          + $"{(this.extended.mHWControlInputEnabled == 1 ? "    HWCI enabled" : "")}"
-          + $"{(this.extended.mWeatherControlInputEnabled == 1 ? "    WCI enabled" : "")}"
-          + $"{(this.extended.mRulesControlInputEnabled == 1 ? "    RCI enabled" : "")}"
-          + $"{(this.extended.mPluginControlInputEnabled == 1 ? "    PCI enabled" : "")}"
-          + $"    UBM: {this.extended.mUnsubscribedBuffersMask}"
-          + $"    FPS: {this.fps}"
-          + $"    FFB Curr: {this.forceFeedback.mForceValue:N3} Max: {this.maxFFBValue:N3}");
+          $"Plugin Version:    Expected: 3.7.15.0 64bit   Actual: {GetStringFromBytes(extended.mVersion)}"
+          + $"{(extended.is64bit == 1 ? " 64bit" : " 32bit")}"
+          + $"{(extended.mSCRPluginEnabled == 1 ? "    SCR Plugin enabled" : "")}"
+          + $"{(extended.mDirectMemoryAccessEnabled == 1 ? "    DMA enabled" : "")}"
+          + $"{(extended.mHWControlInputEnabled == 1 ? "    HWCI enabled" : "")}"
+          + $"{(extended.mWeatherControlInputEnabled == 1 ? "    WCI enabled" : "")}"
+          + $"{(extended.mRulesControlInputEnabled == 1 ? "    RCI enabled" : "")}"
+          + $"{(extended.mPluginControlInputEnabled == 1 ? "    PCI enabled" : "")}"
+          + $"    UBM: {extended.mUnsubscribedBuffersMask}"
+          + $"    FPS: {fps}"
+          + $"    FFB Curr: {forceFeedback.mForceValue:N3} Max: {maxFFBValue:N3}");
 
         // Draw header
         g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, brush, currX, currY);
@@ -585,13 +585,13 @@ namespace rF2SMMonitor
         // Build map of mID -> telemetry.mVehicles[i].
         // They are typically matching values, however, we need to handle online cases and dropped vehicles (mID can be reused).
         var idsToTelIndices = new Dictionary<long, int>();
-        for (int i = 0; i < this.telemetry.mNumVehicles; ++i)
+        for (int i = 0; i < telemetry.mNumVehicles; ++i)
         {
-          if (!idsToTelIndices.ContainsKey(this.telemetry.mVehicles[i].mID))
-            idsToTelIndices.Add(this.telemetry.mVehicles[i].mID, i);
+          if (!idsToTelIndices.ContainsKey(telemetry.mVehicles[i].mID))
+            idsToTelIndices.Add(telemetry.mVehicles[i].mID, i);
         }
 
-        var playerVehScoring = GetPlayerScoring(ref this.scoring);
+        var playerVehScoring = GetPlayerScoring(ref scoring);
 
         var scoringPlrId = playerVehScoring.mID;
         var playerVeh = new rF2VehicleTelemetry();
@@ -599,14 +599,14 @@ namespace rF2SMMonitor
         if (idsToTelIndices.ContainsKey(scoringPlrId))
         {
           resolvedPlayerIdx = idsToTelIndices[scoringPlrId];
-          playerVeh = this.telemetry.mVehicles[resolvedPlayerIdx];
+          playerVeh = telemetry.mVehicles[resolvedPlayerIdx];
         }
 
         // Figure out prev session end player mID
         var playerSessionEndInfo = new rF2VehScoringCapture();
-        for (int i = 0; i < this.extended.mSessionTransitionCapture.mNumScoringVehicles; ++i)
+        for (int i = 0; i < extended.mSessionTransitionCapture.mNumScoringVehicles; ++i)
         {
-          var veh = this.extended.mSessionTransitionCapture.mScoringVehicles[i];
+          var veh = extended.mSessionTransitionCapture.mScoringVehicles[i];
           if (veh.mIsPlayer == 1)
             playerSessionEndInfo = veh;
         }
@@ -639,23 +639,23 @@ namespace rF2SMMonitor
 
         gameStateText.Append(
                 $"{playerVeh.mElapsedTime:N3}\n"
-                + $"{this.scoring.mScoringInfo.mCurrentET:N3}\n"
-                + $"{(playerVeh.mElapsedTime - this.scoring.mScoringInfo.mCurrentET):N3}\n"
+                + $"{scoring.mScoringInfo.mCurrentET:N3}\n"
+                + $"{(playerVeh.mElapsedTime - scoring.mScoringInfo.mCurrentET):N3}\n"
                 + $"{playerVeh.mDeltaTime:N3}\n"
-                + (this.extended.mPhysics.mInvulnerable == 0 ? "off" : "on") + "\n"
-                + $"{MainForm.GetStringFromBytes(playerVeh.mVehicleName)}\n"
-                + $"{MainForm.GetStringFromBytes(playerVeh.mTrackName)}\n"
+                + (extended.mPhysics.mInvulnerable == 0 ? "off" : "on") + "\n"
+                + $"{GetStringFromBytes(playerVeh.mVehicleName)}\n"
+                + $"{GetStringFromBytes(playerVeh.mTrackName)}\n"
                 + $"{playerVeh.mLapStartET:N3}\n"
-                + $"{this.scoring.mScoringInfo.mLapDist:N3}\n"
-                + (this.scoring.mScoringInfo.mEndET < 0.0 ? "Unknown" : this.scoring.mScoringInfo.mEndET.ToString("N3")) + "\n"
-                + $"{MainForm.GetStringFromBytes(this.scoring.mScoringInfo.mPlayerName)}\n"
-                + $"{MainForm.GetStringFromBytes(this.scoring.mScoringInfo.mPlrFileName)}\n\n"
-                + $"{this.extended.mSessionStarted != 0}\n"
-                + $"{TransitionTracker.GetSessionString(this.extended.mSessionTransitionCapture.mSession)}\n"
-                + $"{(rFactor2Constants.rF2GamePhase)this.extended.mSessionTransitionCapture.mGamePhase}\n"
+                + $"{scoring.mScoringInfo.mLapDist:N3}\n"
+                + (scoring.mScoringInfo.mEndET < 0.0 ? "Unknown" : scoring.mScoringInfo.mEndET.ToString("N3")) + "\n"
+                + $"{GetStringFromBytes(scoring.mScoringInfo.mPlayerName)}\n"
+                + $"{GetStringFromBytes(scoring.mScoringInfo.mPlrFileName)}\n\n"
+                + $"{extended.mSessionStarted != 0}\n"
+                + $"{TransitionTracker.GetSessionString(extended.mSessionTransitionCapture.mSession)}\n"
+                + $"{(rF2GamePhase)extended.mSessionTransitionCapture.mGamePhase}\n"
                 + $"{playerSessionEndInfo.mPlace}\n"
-                + $"{(rFactor2Constants.rF2FinishStatus)playerSessionEndInfo.mFinishStatus}\n"
-                + $"{MainForm.GetStringFromBytes(this.extended.mDisplayedMessageUpdateCapture)}\n"
+                + $"{(rF2FinishStatus)playerSessionEndInfo.mFinishStatus}\n"
+                + $"{GetStringFromBytes(extended.mDisplayedMessageUpdateCapture)}\n"
                 );
 
         // Col1 values
@@ -676,17 +676,17 @@ namespace rF2SMMonitor
 
         gameStateText.Clear();
         gameStateText.Append(
-          this.telemetryBuffer.GetStats() + '\n'
-          + this.scoringBuffer.GetStats() + '\n'
-          + this.rulesBuffer.GetStats() + '\n'
-          + this.pitInfoBuffer.GetStats() + '\n'
-          + this.weatherBuffer.GetStats() + '\n'
-          + this.extendedBuffer.GetStats() + '\n'
-          + this.avgDelayMicroseconds.ToString("0.000") + " microseconds");
+          telemetryBuffer.GetStats() + '\n'
+          + scoringBuffer.GetStats() + '\n'
+          + rulesBuffer.GetStats() + '\n'
+          + pitInfoBuffer.GetStats() + '\n'
+          + weatherBuffer.GetStats() + '\n'
+          + extendedBuffer.GetStats() + '\n'
+          + avgDelayMicroseconds.ToString("0.000") + " microseconds");
 
         g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Black, 1560, 570);
 
-        if (this.extended.mDirectMemoryAccessEnabled == 1)
+        if (extended.mDirectMemoryAccessEnabled == 1)
         {
           gameStateText.Clear();
           gameStateText.Append(
@@ -703,31 +703,31 @@ namespace rF2SMMonitor
 
           gameStateText.Clear();
           gameStateText.Append(
-            MainForm.GetStringFromBytes(this.extended.mStatusMessage) + '\n'
-            + MainForm.GetStringFromBytes(this.extended.mLastHistoryMessage) + '\n'
-            + (int)(this.extended.mCurrentPitSpeedLimit * 3.6f + 0.5f) + "kph\n"
-            + MainForm.GetStringFromBytes(this.extended.mLSIPhaseMessage) + '\n'
-            + MainForm.GetStringFromBytes(this.extended.mLSIPitStateMessage) + '\n'
-            + MainForm.GetStringFromBytes(this.extended.mLSIOrderInstructionMessage) + '\n'
-            + MainForm.GetStringFromBytes(this.extended.mLSIRulesInstructionMessage) + '\n'
+            GetStringFromBytes(extended.mStatusMessage) + '\n'
+            + GetStringFromBytes(extended.mLastHistoryMessage) + '\n'
+            + (int)(extended.mCurrentPitSpeedLimit * 3.6f + 0.5f) + "kph\n"
+            + GetStringFromBytes(extended.mLSIPhaseMessage) + '\n'
+            + GetStringFromBytes(extended.mLSIPitStateMessage) + '\n'
+            + GetStringFromBytes(extended.mLSIOrderInstructionMessage) + '\n'
+            + GetStringFromBytes(extended.mLSIRulesInstructionMessage) + '\n'
             );
 
           g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 1580, 660);
 
           gameStateText.Clear();
           gameStateText.Append(
-            "updated: " + this.extended.mTicksStatusMessageUpdated + '\n'
-            + "updated: " + this.extended.mTicksLastHistoryMessageUpdated + '\n'
+            "updated: " + extended.mTicksStatusMessageUpdated + '\n'
+            + "updated: " + extended.mTicksLastHistoryMessageUpdated + '\n'
             + '\n'
-            + "updated: " + this.extended.mTicksLSIPhaseMessageUpdated + '\n'
-            + "updated: " + this.extended.mTicksLSIPitStateMessageUpdated + '\n'
-            + "updated: " + this.extended.mTicksLSIOrderInstructionMessageUpdated + '\n'
-            + "updated: " + this.extended.mTicksLSIRulesInstructionMessageUpdated + '\n');
+            + "updated: " + extended.mTicksLSIPhaseMessageUpdated + '\n'
+            + "updated: " + extended.mTicksLSIPitStateMessageUpdated + '\n'
+            + "updated: " + extended.mTicksLSIOrderInstructionMessageUpdated + '\n'
+            + "updated: " + extended.mTicksLSIRulesInstructionMessageUpdated + '\n');
 
           g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Purple, 1800, 660);
         }
 
-        if ((this.extended.mUnsubscribedBuffersMask & (long)SubscribedBuffer.PitInfo) == 0)
+        if ((extended.mUnsubscribedBuffersMask & (long)SubscribedBuffer.PitInfo) == 0)
         {
           // Print pit info:
           gameStateText.Clear();
@@ -743,21 +743,21 @@ namespace rF2SMMonitor
           g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 1500, 750);
 
           gameStateText.Clear();
-          var catName = MainForm.GetStringFromBytes(this.pitInfo.mPitMneu.mCategoryName);
-          var choiceStr = MainForm.GetStringFromBytes(this.pitInfo.mPitMneu.mChoiceString);
+          var catName = GetStringFromBytes(pitInfo.mPitMneu.mCategoryName);
+          var choiceStr = GetStringFromBytes(pitInfo.mPitMneu.mChoiceString);
 
           gameStateText.Append(
-            this.pitInfo.mPitMneu.mCategoryIndex + "\n"
+            pitInfo.mPitMneu.mCategoryIndex + "\n"
             + (string.IsNullOrWhiteSpace(catName) ? "<empty>" : catName) + "\n"
-            + this.pitInfo.mPitMneu.mChoiceIndex + "\n"
+            + pitInfo.mPitMneu.mChoiceIndex + "\n"
             + (string.IsNullOrWhiteSpace(choiceStr) ? "<empty>" : choiceStr) + "\n"
-            + this.pitInfo.mPitMneu.mNumChoices + "\n"
+            + pitInfo.mPitMneu.mNumChoices + "\n"
             );
 
           g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Orange, 1600, 750);
         }
 
-        if (this.scoring.mScoringInfo.mNumVehicles == 0
+        if (scoring.mScoringInfo.mNumVehicles == 0
           || resolvedPlayerIdx == -1)  // We need telemetry for stats below.
           return;
 
@@ -811,7 +811,7 @@ namespace rF2SMMonitor
           + $"{playerVehScoring.mEstimatedLapTime:N3}\n"
           + $"{playerVehScoring.mTimeBehindNext:N3}\n"
           + $"{playerVehScoring.mTimeBehindLeader:N3}\n"
-          + $"{MainForm.GetStringFromBytes(playerVehScoring.mPitGroup)}\n"
+          + $"{GetStringFromBytes(playerVehScoring.mPitGroup)}\n"
           + $"{playerVehScoring.mLapDist:N3}\n"
           + $"{lapDistEstimated:N3}\n"
           + $"{yaw:N3}\n"
@@ -822,7 +822,7 @@ namespace rF2SMMonitor
         // Col2 values
         g.DrawString(gameStateText.ToString(), SystemFonts.DefaultFont, Brushes.Purple, currX + 120, currY);
 
-        if (this.logLightMode)
+        if (logLightMode)
             return;
 
         // Branch of UI choice: origin center or car# center
@@ -836,25 +836,25 @@ namespace rF2SMMonitor
         var yawVeh = yaw;
 
         // View center
-        var xScrOrigin = this.view.Width / 2.0f;
-        var yScrOrigin = this.view.Height / 2.0f;
-        if (!this.centerOnVehicle)
+        var xScrOrigin = view.Width / 2.0f;
+        var yScrOrigin = view.Height / 2.0f;
+        if (!centerOnVehicle)
         {
           // Set world origin.
           g.TranslateTransform(xScrOrigin, yScrOrigin);
-          this.RenderOrientationAxis(g);
+          RenderOrientationAxis(g);
           g.ScaleTransform(scale, scale);
 
           RenderCar(g, xVeh, -zVeh, -(float)yawVeh, Brushes.Green);
 
-          for (int i = 0; i < this.telemetry.mNumVehicles; ++i)
+          for (int i = 0; i < telemetry.mNumVehicles; ++i)
           {
             if (i == resolvedPlayerIdx)
               continue;
 
-            var veh = this.telemetry.mVehicles[i];
+            var veh = telemetry.mVehicles[i];
             var thisYaw = Math.Atan2(veh.mOri[2].x, veh.mOri[2].z);
-            this.RenderCar(g,
+            RenderCar(g,
               (float)veh.mPos.x,
               -(float)veh.mPos.z,
               -(float)thisYaw, Brushes.Red);
@@ -864,23 +864,23 @@ namespace rF2SMMonitor
         {
           g.TranslateTransform(xScrOrigin, yScrOrigin);
 
-          if (this.rotateAroundVehicle)
+          if (rotateAroundVehicle)
             g.RotateTransform(180.0f + (float)yawVeh * DEGREES_IN_RADIAN);
 
-          this.RenderOrientationAxis(g);
+          RenderOrientationAxis(g);
           g.ScaleTransform(scale, scale);
           g.TranslateTransform(-xVeh, zVeh);
 
           RenderCar(g, xVeh, -zVeh, -(float)yawVeh, Brushes.Green);
 
-          for (int i = 0; i < this.telemetry.mNumVehicles; ++i)
+          for (int i = 0; i < telemetry.mNumVehicles; ++i)
           {
             if (i == resolvedPlayerIdx)
               continue;
 
-            var veh = this.telemetry.mVehicles[i];
+            var veh = telemetry.mVehicles[i];
             var thisYaw = Math.Atan2(veh.mOri[2].x, veh.mOri[2].z);
-            this.RenderCar(g,
+            RenderCar(g,
               (float)veh.mPos.x,
               -(float)veh.mPos.z,
               -(float)thisYaw, Brushes.Red);
@@ -895,11 +895,11 @@ namespace rF2SMMonitor
       for (int i = 0; i < scoring.mScoringInfo.mNumVehicles; ++i)
       {
         var vehicle = scoring.mVehicles[i];
-        switch ((rFactor2Constants.rF2Control)vehicle.mControl)
+        switch ((rF2Control)vehicle.mControl)
         {
-          case rFactor2Constants.rF2Control.AI:
-          case rFactor2Constants.rF2Control.Player:
-          case rFactor2Constants.rF2Control.Remote:
+          case rF2Control.AI:
+          case rF2Control.Player:
+          case rF2Control.Remote:
             if (vehicle.mIsPlayer == 1)
               playerVehScoring = vehicle;
 
@@ -953,7 +953,7 @@ namespace rF2SMMonitor
 
       g.RotateTransform(yaw * DEGREES_IN_RADIAN);
 
-      g.FillPolygon(brush, this.carPoly);
+      g.FillPolygon(brush, carPoly);
 
       g.Restore(state);
     }
@@ -970,15 +970,15 @@ namespace rF2SMMonitor
     {
 
       float length = 1000.0f;
-      float arrowDistX = this.view.Width / 2.0f - 10.0f;
-      float arrowDistY = this.view.Height / 2.0f - 10.0f;
+      float arrowDistX = view.Width / 2.0f - 10.0f;
+      float arrowDistY = view.Height / 2.0f - 10.0f;
 
       // X (x screen) axis
       g.DrawLine(Pens.Red, -length, 0.0f, length, 0.0f);
       var state = g.Save();
-      g.TranslateTransform(this.rotateAroundVehicle ? arrowDistY : arrowDistX, 0.0f);
+      g.TranslateTransform(rotateAroundVehicle ? arrowDistY : arrowDistX, 0.0f);
       g.RotateTransform(-90.0f);
-      g.FillPolygon(Brushes.Red, this.arrowHead);
+      g.FillPolygon(Brushes.Red, arrowHead);
       g.RotateTransform(90.0f);
       g.DrawString("x+", SystemFonts.DefaultFont, Brushes.Red, -10.0f, 10.0f);
       g.Restore(state);
@@ -988,7 +988,7 @@ namespace rF2SMMonitor
       g.DrawLine(Pens.Blue, 0.0f, -length, 0.0f, length);
       g.TranslateTransform(0.0f, -arrowDistY);
       g.RotateTransform(180.0f);
-      g.FillPolygon(Brushes.Blue, this.arrowHead);
+      g.FillPolygon(Brushes.Blue, arrowHead);
       g.DrawString("z+", SystemFonts.DefaultFont, Brushes.Blue, 10.0f, -10.0f);
 
       g.Restore(state);
@@ -996,66 +996,66 @@ namespace rF2SMMonitor
 
     private void ConnectTimer_Tick(object sender, EventArgs e)
     {
-      if (!this.connected)
+      if (!connected)
       {
         try
         {
           // Extended buffer is the last one constructed, so it is an indicator RF2SM is ready.
-          this.extendedBuffer.Connect();
+          extendedBuffer.Connect();
 
-          this.telemetryBuffer.Connect();
-          this.scoringBuffer.Connect();
-          this.rulesBuffer.Connect();
-          this.forceFeedbackBuffer.Connect();
-          this.graphicsBuffer.Connect();
-          this.pitInfoBuffer.Connect();
-          this.weatherBuffer.Connect();
+          telemetryBuffer.Connect();
+          scoringBuffer.Connect();
+          rulesBuffer.Connect();
+          forceFeedbackBuffer.Connect();
+          graphicsBuffer.Connect();
+          pitInfoBuffer.Connect();
+          weatherBuffer.Connect();
 
-          this.hwControlBuffer.Connect();
-          this.hwControlBuffer.GetMappedData(ref this.hwControl);
-          this.hwControl.mLayoutVersion = rFactor2Constants.MM_HWCONTROL_LAYOUT_VERSION;
+          hwControlBuffer.Connect();
+          hwControlBuffer.GetMappedData(ref hwControl);
+          hwControl.mLayoutVersion = MM_HWCONTROL_LAYOUT_VERSION;
 
-          this.weatherControlBuffer.Connect();
-          this.weatherControlBuffer.GetMappedData(ref this.weatherControl);
-          this.weatherControl.mLayoutVersion = rFactor2Constants.MM_WEATHER_CONTROL_LAYOUT_VERSION;
+          weatherControlBuffer.Connect();
+          weatherControlBuffer.GetMappedData(ref weatherControl);
+          weatherControl.mLayoutVersion = MM_WEATHER_CONTROL_LAYOUT_VERSION;
 
-          this.rulesControlBuffer.Connect();
-          this.rulesControlBuffer.GetMappedData(ref this.rulesControl);
-          this.rulesControl.mLayoutVersion = rFactor2Constants.MM_RULES_CONTROL_LAYOUT_VERSION;
+          rulesControlBuffer.Connect();
+          rulesControlBuffer.GetMappedData(ref rulesControl);
+          rulesControl.mLayoutVersion = MM_RULES_CONTROL_LAYOUT_VERSION;
 
-          this.pluginControlBuffer.Connect();
-          this.pluginControlBuffer.GetMappedData(ref this.pluginControl);
-          this.pluginControl.mLayoutVersion = rFactor2Constants.MM_PLUGIN_CONTROL_LAYOUT_VERSION;
+          pluginControlBuffer.Connect();
+          pluginControlBuffer.GetMappedData(ref pluginControl);
+          pluginControl.mLayoutVersion = MM_PLUGIN_CONTROL_LAYOUT_VERSION;
 
           // Scoring cannot be enabled on demand.
-          this.pluginControl.mRequestEnableBuffersMask = /*(int)SubscribedBuffer.Scoring | */(int)SubscribedBuffer.Telemetry | (int)SubscribedBuffer.Rules
+          pluginControl.mRequestEnableBuffersMask = /*(int)SubscribedBuffer.Scoring | */(int)SubscribedBuffer.Telemetry | (int)SubscribedBuffer.Rules
             | (int)SubscribedBuffer.ForceFeedback | (int)SubscribedBuffer.Graphics | (int)SubscribedBuffer.Weather | (int)SubscribedBuffer.PitInfo;
-          this.pluginControl.mRequestHWControlInput = 1;
-          this.pluginControl.mRequestRulesControlInput = 1;
-          this.pluginControl.mRequestWeatherControlInput = 1;
-          this.pluginControl.mVersionUpdateBegin = this.pluginControl.mVersionUpdateEnd = this.pluginControl.mVersionUpdateBegin + 1;
-          this.pluginControlBuffer.PutMappedData(ref this.pluginControl);
+          pluginControl.mRequestHWControlInput = 1;
+          pluginControl.mRequestRulesControlInput = 1;
+          pluginControl.mRequestWeatherControlInput = 1;
+          pluginControl.mVersionUpdateBegin = pluginControl.mVersionUpdateEnd = pluginControl.mVersionUpdateBegin + 1;
+          pluginControlBuffer.PutMappedData(ref pluginControl);
 
-          this.connected = true;
+          connected = true;
 
-          this.EnableControls(true);
+          EnableControls(true);
         }
         catch (Exception)
         {
-          this.Disconnect();
+          Disconnect();
         }
       }
     }
 
     private void DisconnectTimer_Tick(object sender, EventArgs e)
     {
-      if (!this.connected)
+      if (!connected)
         return;
 
       try
       {
         // Alternatively, I could release resources and try re-acquiring them immidiately.
-        var processes = Process.GetProcessesByName(rF2SMMonitor.rFactor2Constants.RFACTOR2_PROCESS_NAME);
+        var processes = Process.GetProcessesByName(RFACTOR2_PROCESS_NAME);
         if (processes.Length == 0)
           Disconnect();
       }
@@ -1067,137 +1067,137 @@ namespace rF2SMMonitor
 
     private void Disconnect()
     {
-      this.extendedBuffer.Disconnect();
-      this.scoringBuffer.Disconnect();
-      this.rulesBuffer.Disconnect();
-      this.telemetryBuffer.Disconnect();
-      this.forceFeedbackBuffer.Disconnect();
-      this.pitInfoBuffer.Disconnect();
-      this.weatherBuffer.Disconnect();
-      this.graphicsBuffer.Disconnect();
+      extendedBuffer.Disconnect();
+      scoringBuffer.Disconnect();
+      rulesBuffer.Disconnect();
+      telemetryBuffer.Disconnect();
+      forceFeedbackBuffer.Disconnect();
+      pitInfoBuffer.Disconnect();
+      weatherBuffer.Disconnect();
+      graphicsBuffer.Disconnect();
 
-      this.hwControlBuffer.Disconnect();
-      this.weatherControlBuffer.Disconnect();
-      this.rulesControlBuffer.Disconnect();
-      this.pluginControlBuffer.Disconnect();
+      hwControlBuffer.Disconnect();
+      weatherControlBuffer.Disconnect();
+      rulesControlBuffer.Disconnect();
+      pluginControlBuffer.Disconnect();
 
-      this.connected = false;
+      connected = false;
 
-      this.EnableControls(false);
+      EnableControls(false);
     }
 
     void EnableControls(bool enable)
     {
-      this.globalGroupBox.Enabled = enable;
-      this.groupBoxFocus.Enabled = enable;
-      this.loggingGroupBox.Enabled = enable;
-      this.inputsGroupBox.Enabled = enable;
+      globalGroupBox.Enabled = enable;
+      groupBoxFocus.Enabled = enable;
+      loggingGroupBox.Enabled = enable;
+      inputsGroupBox.Enabled = enable;
 
-      this.focusVehLabel.Enabled = false;
-      this.focusVehTextBox.Enabled = false;
-      this.xOffsetLabel.Enabled = false;
-      this.xOffsetTextBox.Enabled = false;
-      this.yOffsetLabel.Enabled = false;
-      this.yOffsetTextBox.Enabled = false;
+      focusVehLabel.Enabled = false;
+      focusVehTextBox.Enabled = false;
+      xOffsetLabel.Enabled = false;
+      xOffsetTextBox.Enabled = false;
+      yOffsetLabel.Enabled = false;
+      yOffsetTextBox.Enabled = false;
 
       if (enable)
       {
-        this.rotateAroundCheckBox.Enabled = this.setAsOriginCheckBox.Checked;
-        this.globalGroupBox.Enabled = !this.logLightMode;
-        this.groupBoxFocus.Enabled = !this.logLightMode;
+        rotateAroundCheckBox.Enabled = setAsOriginCheckBox.Checked;
+        globalGroupBox.Enabled = !logLightMode;
+        groupBoxFocus.Enabled = !logLightMode;
       }
     }
 
     void LoadConfig()
     {
       float result = 0.0f;
-      this.scale = 2.0f;
-      if (float.TryParse(this.config.Read("scale"), out result))
-        this.scale = result;
+      scale = 2.0f;
+      if (float.TryParse(config.Read("scale"), out result))
+        scale = result;
 
-      if (this.scale <= 0.0f)
-        this.scale = 0.1f;
+      if (scale <= 0.0f)
+        scale = 0.1f;
 
-      this.scaleTextBox.Text = this.scale.ToString();
-
-      result = 0.0f;
-      this.xOffset = 0.0f;
-      if (float.TryParse(this.config.Read("xOffset"), out result))
-        this.xOffset = result;
-
-      this.xOffsetTextBox.Text = this.xOffset.ToString();
+      scaleTextBox.Text = scale.ToString();
 
       result = 0.0f;
-      this.yOffset = 0.0f;
-      if (float.TryParse(this.config.Read("yOffset"), out result))
-        this.yOffset = result;
+      xOffset = 0.0f;
+      if (float.TryParse(config.Read("xOffset"), out result))
+        xOffset = result;
 
-      this.yOffsetTextBox.Text = this.yOffset.ToString();
+      xOffsetTextBox.Text = xOffset.ToString();
+
+      result = 0.0f;
+      yOffset = 0.0f;
+      if (float.TryParse(config.Read("yOffset"), out result))
+        yOffset = result;
+
+      yOffsetTextBox.Text = yOffset.ToString();
 
       int intResult = 0;
-      this.focusVehicle = 0;
-      if (int.TryParse(this.config.Read("focusVehicle"), out intResult) && intResult >= 0)
-        this.focusVehicle = intResult;
+      focusVehicle = 0;
+      if (int.TryParse(config.Read("focusVehicle"), out intResult) && intResult >= 0)
+        focusVehicle = intResult;
 
-      this.focusVehTextBox.Text = this.focusVehicle.ToString();
-
-      intResult = 0;
-      this.centerOnVehicle = true;
-      if (int.TryParse(this.config.Read("centerOnVehicle"), out intResult) && intResult == 0)
-        this.centerOnVehicle = false;
-
-      this.setAsOriginCheckBox.Checked = this.centerOnVehicle;
+      focusVehTextBox.Text = focusVehicle.ToString();
 
       intResult = 0;
-      this.rotateAroundVehicle = true;
-      if (int.TryParse(this.config.Read("rotateAroundVehicle"), out intResult) && intResult == 0)
-        this.rotateAroundVehicle = false;
+      centerOnVehicle = true;
+      if (int.TryParse(config.Read("centerOnVehicle"), out intResult) && intResult == 0)
+        centerOnVehicle = false;
 
-      this.rotateAroundCheckBox.Checked = this.rotateAroundVehicle;
-
-      intResult = 0;
-      this.logLightMode = false;
-      if (int.TryParse(this.config.Read("logLightMode"), out intResult) && intResult == 1)
-        this.logLightMode = true;
-
-      this.lightModeCheckBox.Checked = this.logLightMode;
+      setAsOriginCheckBox.Checked = centerOnVehicle;
 
       intResult = 0;
-      this.logPhaseAndState = true;
-      if (int.TryParse(this.config.Read("logPhaseAndState"), out intResult) && intResult == 0)
-        this.logPhaseAndState = false;
+      rotateAroundVehicle = true;
+      if (int.TryParse(config.Read("rotateAroundVehicle"), out intResult) && intResult == 0)
+        rotateAroundVehicle = false;
 
-      this.logPhaseAndStateCheckBox.Checked = this.logPhaseAndState;
-
-      intResult = 0;
-      this.logDamage = true;
-      if (int.TryParse(this.config.Read("logDamage"), out intResult) && intResult == 0)
-        this.logDamage = false;
-
-      this.logDamageCheckBox.Checked = this.logDamage;
+      rotateAroundCheckBox.Checked = rotateAroundVehicle;
 
       intResult = 0;
-      this.logTiming = true;
-      if (int.TryParse(this.config.Read("logTiming"), out intResult) && intResult == 0)
-        this.logTiming = false;
+      logLightMode = false;
+      if (int.TryParse(config.Read("logLightMode"), out intResult) && intResult == 1)
+        logLightMode = true;
 
-      this.logTimingCheckBox.Checked = this.logTiming;
-
-      intResult = 0;
-      this.logRules = true;
-      if (int.TryParse(this.config.Read("logRules"), out intResult) && intResult == 0)
-        this.logRules = false;
-
-      this.logRulesCheckBox.Checked = this.logRules;
+      lightModeCheckBox.Checked = logLightMode;
 
       intResult = 0;
-      this.enablePitInputs = true;
-      if (int.TryParse(this.config.Read("enablePitInputs"), out intResult) && intResult == 0)
-        this.enablePitInputs = false;
+      logPhaseAndState = true;
+      if (int.TryParse(config.Read("logPhaseAndState"), out intResult) && intResult == 0)
+        logPhaseAndState = false;
 
-      this.enablePitInputsCheckBox.Checked = this.enablePitInputs;
+      logPhaseAndStateCheckBox.Checked = logPhaseAndState;
 
-      MainForm.useStockCarRulesPlugin = false;
+      intResult = 0;
+      logDamage = true;
+      if (int.TryParse(config.Read("logDamage"), out intResult) && intResult == 0)
+        logDamage = false;
+
+      logDamageCheckBox.Checked = logDamage;
+
+      intResult = 0;
+      logTiming = true;
+      if (int.TryParse(config.Read("logTiming"), out intResult) && intResult == 0)
+        logTiming = false;
+
+      logTimingCheckBox.Checked = logTiming;
+
+      intResult = 0;
+      logRules = true;
+      if (int.TryParse(config.Read("logRules"), out intResult) && intResult == 0)
+        logRules = false;
+
+      logRulesCheckBox.Checked = logRules;
+
+      intResult = 0;
+      enablePitInputs = true;
+      if (int.TryParse(config.Read("enablePitInputs"), out intResult) && intResult == 0)
+        enablePitInputs = false;
+
+      enablePitInputsCheckBox.Checked = enablePitInputs;
+
+      useStockCarRulesPlugin = false;
     }
   }
 }
